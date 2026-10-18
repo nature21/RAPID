@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+
+export RAPID_REPO_ROOT="${repo_root}"
+export RAPID_WORKSPACE="${repo_root}/workspace"
+export RAPID_ACTIVE_SRC_DIR="${repo_root}/workspace/src"
+export RAPID_SRC_DIR="${repo_root}/workspace/src"
+
+exec "${script_dir}/rapid-python" -m suites.staged.cli "$@"

@@ -1,0 +1,78 @@
+<mujoco model="real2sim_demo_8_scene">
+  <compiler angle="radian" meshdir="." strippath="false" />
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="Euler" />
+  <visual>
+    <headlight ambient="0.40 0.40 0.40" diffuse="0.48 0.48 0.48" specular="0.08 0.08 0.08" />
+  </visual>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1=".58 .48 .36" rgb2=".42 .34 .24" width="300" height="300" />
+    <material name="grid" texture="grid" texrepeat="4 4" texuniform="true" reflectance=".06" />
+    <mesh name="book_mesh" file="meshes/book_visual_00.obj" />
+    <material name="book_mesh_mat" rgba="0.44476723 0.26498557 0.13618346 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_1" file="meshes/book_visual_01.obj" />
+    <material name="book_mesh_1_mat" rgba="0.49595914 0.13309386 0.077427363 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_2" file="meshes/book_visual_02.obj" />
+    <material name="book_mesh_2_mat" rgba="0.36520258 0.24989806 0.12359737 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_3" file="meshes/book_visual_03.obj" />
+    <material name="book_mesh_3_mat" rgba="0.30664761 0.1103131 0.055552578 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_4" file="meshes/book_visual_04.obj" />
+    <material name="book_mesh_4_mat" rgba="0.47995423 0.35131929 0.22246209 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_5" file="meshes/book_visual_05.obj" />
+    <material name="book_mesh_5_mat" rgba="0.57634745 0.43155252 0.28438003 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_6" file="meshes/book_visual_06.obj" />
+    <material name="book_mesh_6_mat" rgba="0.7197307 0.3101774 0.2591577 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="book_mesh_7" file="meshes/book_visual_07.obj" />
+    <material name="book_mesh_7_mat" rgba="0.83160238 0.29081376 0.18722976 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh" file="meshes/white_drawer_visual_00.obj" />
+    <material name="white_drawer_mesh_mat" rgba="0.4768056 0.39120851 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_1" file="meshes/white_drawer_visual_01.obj" />
+    <material name="white_drawer_mesh_1_mat" rgba="0.50065962 0.41946227 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_2" file="meshes/white_drawer_visual_02.obj" />
+    <material name="white_drawer_mesh_2_mat" rgba="0.30151205 0.29861477 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_3" file="meshes/white_drawer_visual_03.obj" />
+    <material name="white_drawer_mesh_3_mat" rgba="0.49146886 0.42 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_4" file="meshes/white_drawer_visual_04.obj" />
+    <material name="white_drawer_mesh_4_mat" rgba="0.50344113 0.41621887 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_5" file="meshes/white_drawer_visual_05.obj" />
+    <material name="white_drawer_mesh_5_mat" rgba="0.50510613 0.41856645 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_6" file="meshes/white_drawer_visual_06.obj" />
+    <material name="white_drawer_mesh_6_mat" rgba="0.49970308 0.41842951 0.28 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_drawer_mesh_7" file="meshes/white_drawer_visual_07.obj" />
+    <material name="white_drawer_mesh_7_mat" rgba="0.49475329 0.42 0.28 1" specular="0" shininess="0" reflectance="0" />
+  </asset>
+  <default>
+    <geom condim="4" friction="0.7 0.01 0.001" solref="0.01 0.965" solimp="0.9 0.95 0.001" />
+  </default>
+  <worldbody>
+    <light name="key" pos="-0.53473071 -0.95255858 2.3204175" dir="1 1 -2.4" diffuse="0.50 0.50 0.50" specular="0.06 0.06 0.06" />
+    <light name="fill" pos="1.7652693 0.94744142 1.7204175" dir="-1 -0.8 -1.8" diffuse="0.28 0.28 0.28" specular="0.02 0.02 0.02" />
+    <light name="overhead" pos="0.66526929 0.047441421 2.1204175" dir="0 0 -1" diffuse="0.16 0.16 0.16" specular="0.01 0.01 0.01" />
+    <geom name="floor" type="plane" pos="0 0 0.050545944" size="1 1 0.01" material="grid" condim="4" friction="0.42 0.01 0.001" solref="0.01 0.979" solimp="0.9 0.95 0.001" />
+    <body name="book" pos="0.66197485 0.030823921 0.16318171">
+      <freejoint name="book_joint" />
+      <inertial mass="0.18" diaginertia="0.00063096845 0.0004276577 0.00021942014" pos="0.00014368908 6.7863815e-05 0.00024145038" quat="0.52014482 0.499807 0.48868387 -0.49074474" />
+      <geom name="book_visual" type="mesh" mesh="book_mesh" material="book_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_1" type="mesh" mesh="book_mesh_1" material="book_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_2" type="mesh" mesh="book_mesh_2" material="book_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_3" type="mesh" mesh="book_mesh_3" material="book_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_4" type="mesh" mesh="book_mesh_4" material="book_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_5" type="mesh" mesh="book_mesh_5" material="book_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_6" type="mesh" mesh="book_mesh_6" material="book_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_visual_7" type="mesh" mesh="book_mesh_7" material="book_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="book_collision" type="box" pos="0.00014368908 6.7863815e-05 0.00024145038" quat="0.52014482 0.499807 0.48868387 -0.49074474" size="0.011586408 0.059352822 0.083626452" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.36 0.008 0.001" solref="0.01 0.986" solimp="0.9 0.95 0.001" />
+      <site name="book_site" pos="0 0 0" />
+    </body>
+    <body name="white_drawer" pos="0.66526929 0.047441421 0.10747035" quat="0.99962215 0.023456488 0.014330297 -1.4187978e-11">
+      <geom name="white_drawer_visual" type="mesh" mesh="white_drawer_mesh" material="white_drawer_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_1" type="mesh" mesh="white_drawer_mesh_1" material="white_drawer_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_2" type="mesh" mesh="white_drawer_mesh_2" material="white_drawer_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_3" type="mesh" mesh="white_drawer_mesh_3" material="white_drawer_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_4" type="mesh" mesh="white_drawer_mesh_4" material="white_drawer_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_5" type="mesh" mesh="white_drawer_mesh_5" material="white_drawer_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_6" type="mesh" mesh="white_drawer_mesh_6" material="white_drawer_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_visual_7" type="mesh" mesh="white_drawer_mesh_7" material="white_drawer_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_drawer_collision" type="box" pos="6.2078273e-05 -0.00017293193 -1.5310636e-05" quat="0.71645945 -0.031792198 0.69690162 -0.0018027406" size="0.055201946 0.13481041 0.24630549" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.38 0.012 0.001" solref="0.01 0.986" solimp="0.9 0.95 0.001" />
+      <site name="white_drawer_site" pos="0 0 0" />
+    </body>
+  </worldbody>
+</mujoco>

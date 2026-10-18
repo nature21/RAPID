@@ -1,0 +1,391 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+source "${repo_root}/scripts/lib/experiment-root.sh"
+rapid_experiment_root_args "$@"
+set -- "${RAPID_EXPERIMENT_ARGS[@]}"
+
+usage() {
+  cat <<'EOF'
+Usage (supports --experiment-root DIR; default: RAPID_EXPERIMENT_ROOT or suite_runs):
+  scripts/rapid-construct-primitive --run RUN --demo PATH --env-module MODULE --name NAME [options] [-- AGENT_ARGS...]
+
+Create/reuse one construction-stage workspace and launch the Codex primitive agent.
+This is the normal human-facing command for construction-stage primitive invention.
+It composes:
+
+  rapid-suite create-workspace
+  rapid-codex-run -- agent/construct_primitive_exec.py ...
+
+Required:
+  --run RUN                 Run directory or short name. Short names expand to EXPERIMENT_ROOT/RUN.
+  --demo PATH               Demo image/video path. Repeat for multiple demos.
+  --env-module MODULE       Task root or scene module. Repeat for multiple assigned scenes.
+  --name NAME               Primitive package name passed to the invention launcher.
+
+Options:
+  --task-bind PATH          Additional task input root under tasks/. Repeatable.
+  --from-workspace PATH     Create from a checkpoint. Short names expand to EXPERIMENT_ROOT/PATH.
+  --num-variants N         Number of variants after example_0. Default: 3.
+  --variant-seed N         Deterministic generalization seed. Default: 7.
+  --max-iters N            Per-attempt iteration ceiling for the search ladder.
+  --max-turns N            Codex turn cap.
+  --num-frames N           Keyframes per demo video.
+  --model MODEL            Codex model override.
+  --thinking-effort LEVEL  low, medium, high, or xhigh.
+  --description TEXT       Natural-language task guidance.
+  --description-file PATH  UTF-8 task guidance file.
+  --dry-run                Print commands without creating workspace or launching Codex.
+  -h, --help               Show this help.
+
+Everything after -- is forwarded to agent/construct_primitive_exec.py.
+EOF
+}
+
+quote_cmd() {
+  local out="" arg
+  for arg in "$@"; do
+    if [[ -z "${out}" ]]; then
+      printf -v out '%q' "${arg}"
+    else
+      local quoted
+      printf -v quoted '%q' "${arg}"
+      out+=" ${quoted}"
+    fi
+  done
+  printf '%s\n' "${out}"
+}
+
+resolve_run_dir() {
+  local value="$1"
+  if [[ "${value}" == /* || "${value}" == */* ]]; then
+    printf '%s\n' "${value}"
+  else
+    printf '%s\n' "${RAPID_EXPERIMENT_ROOT}/${value}"
+  fi
+}
+
+resolve_checkpoint_dir() {
+  local value="$1"
+  if [[ "${value}" == "workspace" ]]; then
+    printf '%s\n' "${value}"
+  else
+    resolve_run_dir "${value}"
+  fi
+}
+
+set_default_thread_caps() {
+  export OMP_NUM_THREADS="${OMP_NUM_THREADS:-1}"
+  export MKL_NUM_THREADS="${MKL_NUM_THREADS:-1}"
+  export OPENBLAS_NUM_THREADS="${OPENBLAS_NUM_THREADS:-1}"
+  export NUMEXPR_NUM_THREADS="${NUMEXPR_NUM_THREADS:-1}"
+  export VECLIB_MAXIMUM_THREADS="${VECLIB_MAXIMUM_THREADS:-1}"
+  export BLIS_NUM_THREADS="${BLIS_NUM_THREADS:-1}"
+}
+
+run_arg=""
+from_workspace=""
+name_arg=""
+num_variants="3"
+variant_seed="7"
+max_iters=""
+max_turns=""
+num_frames=""
+model=""
+thinking_effort=""
+description=""
+description_file=""
+dry_run=0
+demos=()
+env_modules=()
+task_binds=()
+agent_extra=()
+
+while (($#)); do
+  case "$1" in
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    --run)
+      (($# >= 2)) || { echo "error: --run requires a value" >&2; exit 2; }
+      run_arg="$2"
+      shift 2
+      ;;
+    --from-workspace)
+      (($# >= 2)) || { echo "error: --from-workspace requires a value" >&2; exit 2; }
+      from_workspace="$2"
+      shift 2
+      ;;
+    --demo)
+      (($# >= 2)) || { echo "error: --demo requires a value" >&2; exit 2; }
+      demos+=("$2")
+      shift 2
+      ;;
+    --env-module|--env-modules)
+      (($# >= 2)) || { echo "error: $1 requires a value" >&2; exit 2; }
+      env_modules+=("$2")
+      shift 2
+      ;;
+    --task-bind)
+      (($# >= 2)) || { echo "error: --task-bind requires a value" >&2; exit 2; }
+      task_binds+=("$2")
+      shift 2
+      ;;
+    --name)
+      (($# >= 2)) || { echo "error: --name requires a value" >&2; exit 2; }
+      name_arg="$2"
+      shift 2
+      ;;
+    --num-variants)
+      (($# >= 2)) || { echo "error: --num-variants requires a value" >&2; exit 2; }
+      num_variants="$2"
+      shift 2
+      ;;
+    --variant-seed)
+      (($# >= 2)) || { echo "error: --variant-seed requires a value" >&2; exit 2; }
+      variant_seed="$2"
+      shift 2
+      ;;
+    --max-iters)
+      (($# >= 2)) || { echo "error: --max-iters requires a value" >&2; exit 2; }
+      max_iters="$2"
+      shift 2
+      ;;
+    --max-turns)
+      (($# >= 2)) || { echo "error: --max-turns requires a value" >&2; exit 2; }
+      max_turns="$2"
+      shift 2
+      ;;
+    --num-frames)
+      (($# >= 2)) || { echo "error: --num-frames requires a value" >&2; exit 2; }
+      num_frames="$2"
+      shift 2
+      ;;
+    --model)
+      (($# >= 2)) || { echo "error: --model requires a value" >&2; exit 2; }
+      model="$2"
+      shift 2
+      ;;
+    --thinking-effort)
+      (($# >= 2)) || { echo "error: --thinking-effort requires a value" >&2; exit 2; }
+      thinking_effort="$2"
+      shift 2
+      ;;
+    --description)
+      (($# >= 2)) || { echo "error: --description requires a value" >&2; exit 2; }
+      description="$2"
+      shift 2
+      ;;
+    --description-file)
+      (($# >= 2)) || { echo "error: --description-file requires a value" >&2; exit 2; }
+      description_file="$2"
+      shift 2
+      ;;
+    --dry-run)
+      dry_run=1
+      shift
+      ;;
+    --)
+      shift
+      agent_extra+=("$@")
+      break
+      ;;
+    *)
+      echo "error: unknown argument: $1" >&2
+      echo >&2
+      usage >&2
+      exit 2
+      ;;
+  esac
+done
+
+[[ -n "${run_arg}" ]] || { echo "error: pass --run" >&2; exit 2; }
+((${#demos[@]} > 0)) || { echo "error: pass at least one --demo" >&2; exit 2; }
+((${#env_modules[@]} > 0)) || { echo "error: pass at least one --env-module" >&2; exit 2; }
+[[ -n "${name_arg}" ]] || { echo "error: pass --name" >&2; exit 2; }
+
+set_default_thread_caps
+
+run_dir="$(resolve_run_dir "${run_arg}")"
+if [[ "${run_dir}" != /* ]]; then
+  run_dir="${repo_root}/${run_dir}"
+fi
+workspace_dir="${run_dir}/workspace"
+
+create_cmd=("${script_dir}/rapid-suite" create-workspace --run-dir "${run_dir}")
+if [[ -n "${from_workspace}" ]]; then
+  from_workspace_dir="$(resolve_checkpoint_dir "${from_workspace}")"
+  if [[ "${from_workspace_dir}" != /* ]]; then
+    from_workspace_dir="${repo_root}/${from_workspace_dir}"
+  fi
+  create_cmd+=(--from-workspace "${from_workspace_dir}")
+fi
+
+launcher_cmd=("${script_dir}/rapid-codex-run" --workspace "${workspace_dir}")
+for bind in "${task_binds[@]}"; do
+  launcher_cmd+=(--task-bind "${bind}")
+done
+
+agent_cmd=(agent/construct_primitive_exec.py)
+for demo in "${demos[@]}"; do
+  agent_cmd+=("${demo}")
+done
+for module in "${env_modules[@]}"; do
+  agent_cmd+=(--env-module "${module}")
+done
+agent_cmd+=(
+  --name "${name_arg}"
+  --num-variants "${num_variants}"
+  --variant-seed "${variant_seed}"
+)
+if [[ -n "${max_iters}" ]]; then
+  agent_cmd+=(--max-iters "${max_iters}")
+fi
+if [[ -n "${max_turns}" ]]; then
+  agent_cmd+=(--max-turns "${max_turns}")
+fi
+if [[ -n "${num_frames}" ]]; then
+  agent_cmd+=(--num-frames "${num_frames}")
+fi
+if [[ -n "${model}" ]]; then
+  agent_cmd+=(--model "${model}")
+fi
+if [[ -n "${thinking_effort}" ]]; then
+  agent_cmd+=(--thinking-effort "${thinking_effort}")
+fi
+if [[ -n "${description}" ]]; then
+  agent_cmd+=(--description "${description}")
+fi
+if [[ -n "${description_file}" ]]; then
+  agent_cmd+=(--description-file "${description_file}")
+fi
+agent_cmd+=("${agent_extra[@]}")
+
+full_cmd=("${launcher_cmd[@]}" -- "${agent_cmd[@]}")
+
+cat <<EOF
+[rapid-construct-primitive] run       : ${run_dir}
+[rapid-construct-primitive] workspace : ${workspace_dir}
+[rapid-construct-primitive] primitive  : ${name_arg}
+[rapid-construct-primitive] launcher  : ${agent_cmd[0]}
+[rapid-construct-primitive] rollout   : ${RAPID_ROLLOUT_BACKEND:-mujoco} (${RAPID_ROLLOUT_DEVICE:-cuda:0})
+[rapid-construct-primitive] controller: native_cpp_fr3_osc (FR3 scenes)
+[rapid-construct-primitive] cpu cap   : max_parallel_rollouts=${RAPID_MAX_PARALLEL_ROLLOUTS:-auto (scheduler/affinity-aware, <=48)}
+EOF
+
+if ((dry_run)); then
+  echo "[rapid-construct-primitive] dry run; not creating workspace or launching Codex"
+  echo
+  echo "create command:"
+  quote_cmd "${create_cmd[@]}"
+  echo
+  echo "launch command:"
+  quote_cmd "${full_cmd[@]}"
+  exit 0
+fi
+
+if [[ ! -d "${workspace_dir}/src" ]]; then
+  "${create_cmd[@]}"
+else
+  echo "[rapid-construct-primitive] reusing existing workspace: ${workspace_dir}"
+fi
+
+log_dir="${workspace_dir}/agent_work"
+mkdir -p "${log_dir}"
+timestamp="$(date +%Y%m%d_%H%M%S)"
+command_log="${log_dir}/construction_${name_arg}_${timestamp}.command.sh"
+output_log="${log_dir}/construction_${name_arg}_${timestamp}.output.log"
+
+{
+  echo "# RAPID construction experiment command log"
+  echo "# run: ${run_dir}"
+  echo "# workspace: ${workspace_dir}"
+  echo "# created: $(date -Is)"
+  echo
+  echo "# create command"
+  quote_cmd "${create_cmd[@]}"
+  echo
+  echo "# launch command"
+  quote_cmd "${full_cmd[@]}"
+  echo
+  echo "# resource caps inherited by Codex validation commands"
+  printf 'export OMP_NUM_THREADS=%q\n' "${OMP_NUM_THREADS}"
+  printf 'export MKL_NUM_THREADS=%q\n' "${MKL_NUM_THREADS}"
+  printf 'export OPENBLAS_NUM_THREADS=%q\n' "${OPENBLAS_NUM_THREADS}"
+  printf 'export NUMEXPR_NUM_THREADS=%q\n' "${NUMEXPR_NUM_THREADS}"
+  printf 'export VECLIB_MAXIMUM_THREADS=%q\n' "${VECLIB_MAXIMUM_THREADS}"
+  printf 'export BLIS_NUM_THREADS=%q\n' "${BLIS_NUM_THREADS}"
+  if [[ -n "${RAPID_MAX_PARALLEL_ROLLOUTS:-}" ]]; then
+    printf 'export RAPID_MAX_PARALLEL_ROLLOUTS=%q\n' "${RAPID_MAX_PARALLEL_ROLLOUTS}"
+  fi
+  if [[ -n "${RAPID_ROLLOUT_BACKEND:-}" ]]; then
+    printf 'export RAPID_ROLLOUT_BACKEND=%q\n' "${RAPID_ROLLOUT_BACKEND}"
+  fi
+  if [[ -n "${RAPID_ROLLOUT_DEVICE:-}" ]]; then
+    printf 'export RAPID_ROLLOUT_DEVICE=%q\n' "${RAPID_ROLLOUT_DEVICE}"
+  fi
+  if [[ -n "${RAPID_GPU_RENDER:-}" ]]; then
+    printf 'export RAPID_GPU_RENDER=%q\n' "${RAPID_GPU_RENDER}"
+  fi
+  if [[ -n "${RAPID_OPTIMIZER_NUM_ROLLOUTS:-}" ]]; then
+    printf 'export RAPID_OPTIMIZER_NUM_ROLLOUTS=%q\n' "${RAPID_OPTIMIZER_NUM_ROLLOUTS}"
+  fi
+  if [[ -n "${RAPID_OPTIMIZER_MAX_ITERS:-}" ]]; then
+    printf 'export RAPID_OPTIMIZER_MAX_ITERS=%q\n' "${RAPID_OPTIMIZER_MAX_ITERS}"
+  fi
+  echo
+  echo "# follow-up environment"
+  printf 'eval "$(%q %q)"\n' "${script_dir}/rapid-workspace-env" "${run_dir}"
+} > "${command_log}"
+
+echo "[rapid-construct-primitive] command log: ${command_log}"
+echo "[rapid-construct-primitive] output log : ${output_log}"
+echo
+
+invention_status_file="${workspace_dir}/agent_work/invention_status.json"
+invention_status_before=""
+if [[ -f "${invention_status_file}" ]]; then
+  invention_status_before="$(stat -c '%y:%s' "${invention_status_file}")"
+fi
+
+set +e
+"${full_cmd[@]}" 2>&1 | tee "${output_log}"
+status=${PIPESTATUS[0]}
+set -e
+
+invention_status_summary="unavailable"
+invention_status_after=""
+if [[ -f "${invention_status_file}" ]]; then
+  invention_status_after="$(stat -c '%y:%s' "${invention_status_file}")"
+fi
+if [[ -n "${invention_status_after}" && "${invention_status_after}" != "${invention_status_before}" ]]; then
+  if status_fields="$(
+    "${script_dir}/rapid-python" \
+      -m agent.invention_status "${invention_status_file}" 2>/dev/null
+  )"; then
+    IFS=$'\t' read -r workflow_status behavior_status audit_status \
+      <<<"${status_fields}"
+    invention_status_summary="workflow=${workflow_status}; behavior=${behavior_status}; audit=${audit_status}"
+  fi
+fi
+
+cat <<EOF
+
+[rapid-construct-primitive] Codex exit status: ${status}
+[rapid-construct-primitive] Invention status: ${invention_status_summary}
+[rapid-construct-primitive] Status file: ${invention_status_file}
+
+Follow-up:
+  eval "\$(${script_dir}/rapid-workspace-env ${run_dir})"
+  ${script_dir}/rapid-python -m instantiations.primitives.${name_arg}.example_0.main --metrics-json results/${name_arg}_example_0_metrics.json
+  ${script_dir}/rapid-python -m instantiations.primitives.${name_arg}.example_0.main --record results/${name_arg}_example_0.mp4
+
+Logs:
+  ${command_log}
+  ${output_log}
+EOF
+
+exit "${status}"

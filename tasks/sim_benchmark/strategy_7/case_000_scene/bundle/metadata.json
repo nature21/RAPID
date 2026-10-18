@@ -1,0 +1,39 @@
+{
+  "objects": [
+    {
+      "body": "left_white_divider",
+      "name": "left_white_divider",
+      "safe_name": "left_white_divider"
+    },
+    {
+      "body": "right_white_divider",
+      "name": "right_white_divider",
+      "safe_name": "right_white_divider"
+    },
+    {
+      "body": "left_dark_food_box",
+      "name": "left_dark_food_box",
+      "safe_name": "left_dark_food_box"
+    },
+    {
+      "body": "purple_food_box",
+      "name": "purple_food_box",
+      "safe_name": "purple_food_box"
+    },
+    {
+      "body": "cheez_it_box",
+      "name": "cheez_it_box",
+      "safe_name": "cheez_it_box"
+    },
+    {
+      "body": "tall_red_food_box",
+      "name": "tall_red_food_box",
+      "safe_name": "tall_red_food_box"
+    },
+    {
+      "body": "brown_food_box",
+      "name": "brown_food_box",
+      "safe_name": "brown_food_box"
+    }
+  ]
+}

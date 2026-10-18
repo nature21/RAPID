@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$repo_root/scripts/lib/experiment-root.sh"
+rapid_experiment_root_args "$@"
+set -- "${RAPID_EXPERIMENT_ARGS[@]}"
+
+stage=all
+batch=001
+workers="${RAPID_MAX_PARALLEL_ROLLOUTS:-32}"
+eval_workers="${RAPID_EVAL_WORKERS:-4}"
+model="${RAPID_EXPERIMENT_MODEL:-gpt-6-astra}"
+render="${RAPID_GPU_RENDER:-required}"
+dry_run=0
+while (($#)); do
+  case "$1" in
+    --stage|--batch|--model|--rollout-workers|--eval-workers|--gpu-render)
+      (($# >= 2)) && [[ -n "$2" && "$2" != --* ]] || {
+        echo "error: $1 requires a value" >&2; exit 2;
+      }
+      case "$1" in
+        --stage) stage="$2" ;;
+        --batch) batch="$2" ;;
+        --model) model="$2" ;;
+        --rollout-workers) workers="$2" ;;
+        --eval-workers) eval_workers="$2" ;;
+        --gpu-render) render="$2" ;;
+      esac
+      shift 2 ;;
+    --dry-run) dry_run=1; shift ;;
+    -h|--help)
+      cat <<'EOF'
+Usage: scripts/rapid-experiment-local --experiment-root NAME [options]
+
+Run the existing invention and evaluation entrypoints sequentially, without Slurm.
+  --model NAME          Invention model (default: gpt-6-astra)
+  --stage STAGE         all, construct, compose, or eval (default: all)
+  --batch NNN           Three-digit batch ID (default: 001)
+  --rollout-workers N   CPU worker budget (default: 32)
+  --eval-workers N      Concurrent evaluation cases (default: 4)
+  --gpu-render MODE     required or off (default: required)
+  --dry-run             Print the plan without writing files or running agents
+
+Environment: RAPID_EXPERIMENT_THINKING_EFFORT (high), RAPID_COMPOSITION_MODEL
+(deployment binder, gpt-6-luna), RAPID_CONSTRUCTION_TASKS, RAPID_COMPOSITION_RUNS,
+RAPID_EVAL_STRATEGIES, and RAPID_EVAL_EXECUTION_POLICY (attempt).
+Each invention runs alone. Evaluation uses rollout-workers/eval-workers threads
+per case. Search budgets, prompts, seeds, and benchmark scoring are unchanged.
+Use a new experiment root for a new invention trial. Eval resumes completed cases.
+EOF
+      exit 0 ;;
+    *) echo "error: unknown argument: $1" >&2; exit 2 ;;
+  esac
+done
+[[ "$stage" =~ ^(all|construct|compose|eval)$ ]] || { echo 'error: invalid stage' >&2; exit 2; }
+[[ "$batch" =~ ^[0-9]{3}$ ]] || { echo 'error: batch must have three digits' >&2; exit 2; }
+[[ "$workers" =~ ^[1-9][0-9]*$ && "$eval_workers" =~ ^[1-9][0-9]*$ ]] || {
+  echo 'error: worker counts must be positive integers' >&2; exit 2;
+}
+((workers <= 48 && eval_workers <= workers && workers % eval_workers == 0)) || {
+  echo 'error: rollout workers must be <=48 and a multiple of eval workers' >&2; exit 2;
+}
+[[ "$render" == required || "$render" == off ]] || { echo 'error: invalid GPU render mode' >&2; exit 2; }
+read -r -a strategies <<< "${RAPID_COMPOSITION_RUNS:-1 2 3 4 5 6 7 8}"
+read -r -a evaluations <<< "${RAPID_EVAL_STRATEGIES:-${RAPID_COMPOSITION_RUNS:-1 2 3 4 5 6 7 8}}"
+# Normalize the same space/comma-separated selection accepted by the batch scripts.
+selection="${strategies[*]//,/ }"; read -r -a strategies <<< "$selection"
+selection="${evaluations[*]//,/ }"; read -r -a evaluations <<< "$selection"
+for selection in "${strategies[@]}" "${evaluations[@]}"; do
+  [[ "$selection" =~ ^[1-8]$ ]] || { echo "error: invalid strategy: $selection" >&2; exit 2; }
+done
+
+# Scheduling variables must not turn a local invocation into one array element.
+for variable in ${!SLURM_@}; do unset "$variable"; done
+export BATCH_ID="$batch" RAPID_REPO_ROOT="$repo_root"
+export RAPID_EXPERIMENT_MODEL="$model"
+export RAPID_EXPERIMENT_THINKING_EFFORT="${RAPID_EXPERIMENT_THINKING_EFFORT:-high}"
+export RAPID_COMPOSITION_MODEL="${RAPID_COMPOSITION_MODEL:-gpt-6-luna}"
+export RAPID_MAX_PARALLEL_ROLLOUTS="$workers" RAPID_GPU_RENDER="$render"
+export RAPID_EVAL_EXECUTION_POLICY="${RAPID_EVAL_EXECUTION_POLICY:-attempt}"
+[[ "$RAPID_EVAL_EXECUTION_POLICY" =~ ^(attempt|strict)$ ]] || {
+  echo 'error: invalid eval execution policy' >&2; exit 2;
+}
+cd "$repo_root"
+run() {
+  printf '[local]'; printf ' %q' "$@"; printf '\n'
+  if ((dry_run == 0)); then "$@"; fi
+}
+printf 'Experiment: %s\nModel: %s; effort: %s; stage: %s\n' \
+  "$RAPID_EXPERIMENT_ROOT" "$model" "$RAPID_EXPERIMENT_THINKING_EFFORT" "$stage"
+if ((dry_run)); then
+  run ./scripts/rapid-suite prepare-runtime --run-dir "$RAPID_EXPERIMENT_ROOT/runtime_$batch"
+  export RAPID_RUNTIME_WORKSPACE="$RAPID_EXPERIMENT_ROOT/runtime_$batch/workspace"
+else
+  RAPID_RUNTIME_WORKSPACE="$(env -u RAPID_RUNTIME_WORKSPACE ./scripts/rapid-suite prepare-runtime \
+    --run-dir "$RAPID_EXPERIMENT_ROOT/runtime_$batch")"
+  export RAPID_RUNTIME_WORKSPACE
+fi
+if [[ "$stage" == all || "$stage" == construct ]]; then
+  run ./run_primitive_construction.sh --experiment-root "$RAPID_EXPERIMENT_ROOT"
+fi
+if [[ "$stage" == all || "$stage" == compose ]]; then
+  run ./run_strategy_composition.sh --experiment-root "$RAPID_EXPERIMENT_ROOT"
+fi
+if [[ "$stage" == all || "$stage" == eval ]]; then
+  for strategy in "${evaluations[@]}"; do
+    run ./scripts/rapid-benchmark --experiment-root "$RAPID_EXPERIMENT_ROOT" \
+      "fr3_osc_demo_${strategy}_$batch" "strategy_$strategy" \
+      --jobs "$eval_workers" --rollout-workers-per-job "$((workers / eval_workers))" \
+      --gpu-render "$render" --execution-policy "$RAPID_EVAL_EXECUTION_POLICY" --resume
+  done
+  run ./scripts/rapid-python -m vistools.build_suite_runs_gallery \
+    --experiment-root "$RAPID_EXPERIMENT_ROOT"
+fi

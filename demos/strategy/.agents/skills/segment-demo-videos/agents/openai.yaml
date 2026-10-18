@@ -1,0 +1,4 @@
+interface:
+  display_name: "Segment RGB-D Demo Videos"
+  short_description: "Create synchronized RGB-D demo segments"
+  default_prompt: "Use $segment-demo-videos to annotate and split calibrated RGB-D demonstrations into reconstructable segments."

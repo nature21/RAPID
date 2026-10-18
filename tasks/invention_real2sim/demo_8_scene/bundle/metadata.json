@@ -1,0 +1,14 @@
+{
+  "objects": [
+    {
+      "body": "book",
+      "name": "book",
+      "safe_name": "book"
+    },
+    {
+      "body": "white_drawer",
+      "name": "white drawer",
+      "safe_name": "white_drawer"
+    }
+  ]
+}

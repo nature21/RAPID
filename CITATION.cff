@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use RAPID, please cite the paper below."
+title: "RAPID: Robot Agentic Programming from Demonstrations"
+type: article
+authors:
+  - family-names: Liu
+    given-names: Yuyao
+  - family-names: Mao
+    given-names: Jiayuan
+  - family-names: Hsu
+    given-names: David
+  - family-names: Kaelbling
+    given-names: Leslie Pack
+  - family-names: Lozano-Pérez
+    given-names: Tomás
+year: 2026
+url: "https://arxiv.org/abs/2609.30249"

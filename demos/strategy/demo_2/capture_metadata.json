@@ -1,0 +1,113 @@
+{
+  "camera": {
+    "firmware_version": "1.5.4.1",
+    "name": "Intel RealSense L515",
+    "product_line": "L500",
+    "serial_number": "f1381556",
+    "usb_type_descriptor": "3.2"
+  },
+  "capture_type": "aligned_rgbd_demo_trimmed",
+  "captured_at": "2026-08-26T07:05:59.677434+00:00",
+  "color_shape": [
+    720,
+    1280,
+    3
+  ],
+  "completed_at": "2026-08-26T07:06:16.310264+00:00",
+  "depth_preview_range_meters": [
+    0.2,
+    2.0
+  ],
+  "depth_scale_meters_per_unit": 0.0002500000118743628,
+  "depth_shape": [
+    720,
+    1280
+  ],
+  "depth_units": "uint16_sensor_units",
+  "effective_sensor_fps": 30.145428244837145,
+  "files": {
+    "depth_preview_video": "depth_preview.mp4",
+    "depth_video": "depth.mkv",
+    "extrinsics": "panda_eob_calib.yaml",
+    "first_color": "color.png",
+    "first_metric_depth": "depth.npy",
+    "intrinsics": "intrinsics.json",
+    "rgb_video": "rgb.mp4",
+    "timestamps": "timestamps.csv"
+  },
+  "frame_count": 271,
+  "intrinsics": [
+    [
+      903.7205810546875,
+      0.0,
+      650.8857421875
+    ],
+    [
+      0.0,
+      904.0275268554688,
+      358.82513427734375
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "intrinsics_metadata": {
+    "distortion_coefficients": [
+      0.16496095061302185,
+      -0.4932517409324646,
+      -0.0018223938532173634,
+      0.0001759609003784135,
+      0.44639644026756287
+    ],
+    "distortion_model": "distortion.brown_conrady",
+    "fx": 903.7205810546875,
+    "fy": 904.0275268554688,
+    "height": 720,
+    "ppx": 650.8857421875,
+    "ppy": 358.82513427734375,
+    "width": 1280
+  },
+  "nominal_fps": 30,
+  "registration": "depth_aligned_to_color",
+  "requested_time_range_seconds": [
+    1.0,
+    10.0
+  ],
+  "root_source_frame_range": [
+    27,
+    298
+  ],
+  "schema_version": 1,
+  "sensor_duration_seconds": 8.956582000000001,
+  "source_demo": "demos/strategy/demo_2",
+  "source_frame_range": [
+    27,
+    298
+  ],
+  "source_stop_reason": "keyboard_interrupt",
+  "source_time_range_seconds": [
+    1.028348,
+    9.98493
+  ],
+  "stop_reason": "trimmed_range",
+  "trimmed_at": "2026-08-26T08:13:44.910986+00:00",
+  "video_encoding": {
+    "depth": {
+      "codec": "ffv1",
+      "lossless": true,
+      "pixel_format": "gray16le"
+    },
+    "depth_preview": {
+      "codec": "h264",
+      "metric": false,
+      "pixel_format": "yuv420p"
+    },
+    "rgb": {
+      "codec": "h264",
+      "pixel_format": "yuv420p"
+    }
+  },
+  "warmup_frames_discarded": 30
+}

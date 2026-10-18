@@ -1,0 +1,14 @@
+{
+  "objects": [
+    {
+      "body": "cheez_it_box",
+      "name": "Cheez-It box",
+      "safe_name": "cheez_it_box"
+    },
+    {
+      "body": "white_drawer",
+      "name": "white drawer",
+      "safe_name": "white_drawer"
+    }
+  ]
+}

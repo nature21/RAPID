@@ -1,0 +1,19 @@
+{
+  "objects": [
+    {
+      "body": "brown_cardboard_box",
+      "name": "brown cardboard box",
+      "safe_name": "brown_cardboard_box"
+    },
+    {
+      "body": "white_product_box",
+      "name": "white product box",
+      "safe_name": "white_product_box"
+    },
+    {
+      "body": "blue_product_box",
+      "name": "blue product box",
+      "safe_name": "blue_product_box"
+    }
+  ]
+}

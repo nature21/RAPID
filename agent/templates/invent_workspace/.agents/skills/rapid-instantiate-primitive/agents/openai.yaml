@@ -1,0 +1,4 @@
+interface:
+  display_name: "Instantiate RAPID Primitive"
+  short_description: "Bind an RAPID primitive to a MuJoCo scene"
+  default_prompt: "Use $rapid-instantiate-primitive to bind this primitive to the assigned MuJoCo scene."

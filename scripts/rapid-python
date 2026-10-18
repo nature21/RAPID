@@ -1,0 +1,138 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+workspace_dir="${RAPID_WORKSPACE:-${repo_root}/workspace}"
+src_dir="${RAPID_ACTIVE_SRC_DIR:-${RAPID_SRC_DIR:-${workspace_dir}/src}}"
+conda_env="${RAPID_CONDA_ENV:-rapid}"
+vendored_judo_dir="${repo_root}/third_party/judo"
+
+# Host tools such as /usr/bin/ffmpeg must use the host ncurses ABI.  A custom
+# ncurses prefix exported by a login shell can otherwise override the distro
+# library through LD_LIBRARY_PATH and produce symbol-version warnings (or an
+# eventual loader failure).  Keep unrelated caller-provided library paths.
+if [[ -n "${NCURSES_HOME:-}" && -n "${LD_LIBRARY_PATH:-}" ]]; then
+  rapid_custom_ncurses_lib="${NCURSES_HOME%/}/lib"
+  rapid_clean_library_path=""
+  IFS=: read -r -a rapid_library_path_entries <<< "${LD_LIBRARY_PATH}"
+  for rapid_library_path_entry in "${rapid_library_path_entries[@]}"; do
+    if [[ "${rapid_library_path_entry}" == "${rapid_custom_ncurses_lib}" ]]; then
+      continue
+    fi
+    rapid_clean_library_path="${rapid_clean_library_path}${rapid_clean_library_path:+:}${rapid_library_path_entry}"
+  done
+  if [[ -n "${rapid_clean_library_path}" ]]; then
+    export LD_LIBRARY_PATH="${rapid_clean_library_path}"
+  else
+    unset LD_LIBRARY_PATH
+  fi
+  unset rapid_custom_ncurses_lib rapid_clean_library_path
+  unset rapid_library_path_entry rapid_library_path_entries
+fi
+
+if [[ -n "${RAPID_ACTIVE_SRC_DIR:-}" && -n "${RAPID_SRC_DIR:-}" && "${RAPID_ACTIVE_SRC_DIR}" != "${RAPID_SRC_DIR}" ]]; then
+  echo "error: RAPID_ACTIVE_SRC_DIR and RAPID_SRC_DIR disagree" >&2
+  echo "  RAPID_ACTIVE_SRC_DIR=${RAPID_ACTIVE_SRC_DIR}" >&2
+  echo "  RAPID_SRC_DIR=${RAPID_SRC_DIR}" >&2
+  echo "unset the stale value or make both point to the same source tree" >&2
+  exit 2
+fi
+
+if [[ ! -d "${workspace_dir}" ]]; then
+  echo "error: expected RAPID workspace at ${workspace_dir}" >&2
+  exit 1
+fi
+
+if [[ ! -d "${src_dir}" ]]; then
+  echo "error: expected RAPID source tree at ${src_dir}" >&2
+  exit 1
+fi
+
+workspace_dir="$(cd -- "${workspace_dir}" && pwd)"
+src_dir="$(cd -- "${src_dir}" && pwd)"
+
+if [[ -z "${TMPDIR:-}" || ! -d "${TMPDIR}" || ! -w "${TMPDIR}" ]]; then
+  export TMPDIR="${workspace_dir}/agent_work/tmp"
+fi
+mkdir -p "${TMPDIR}"
+
+for forbidden_package in judo mujoco_extensions run_mpc; do
+  if [[ -e "${src_dir}/${forbidden_package}" ]]; then
+    echo "error: candidate source tree shadows vendored dependency '${forbidden_package}'" >&2
+    echo "  remove ${src_dir}/${forbidden_package}" >&2
+    echo "  use the repository-provided third_party/judo dependency via scripts/rapid-python" >&2
+    exit 2
+  fi
+done
+
+export RAPID_REPO_ROOT="${RAPID_REPO_ROOT:-${repo_root}}"
+export RAPID_WORKSPACE="${workspace_dir}"
+export RAPID_ACTIVE_SRC_DIR="${src_dir}"
+export RAPID_SRC_DIR="${src_dir}"
+export PYTHONDONTWRITEBYTECODE="${PYTHONDONTWRITEBYTECODE:-1}"
+export PYTHONNOUSERSITE="${PYTHONNOUSERSITE:-1}"
+export MUJOCO_GL="${MUJOCO_GL:-egl}"
+export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-egl}"
+if [[ -z "${XDG_CACHE_HOME:-}" || ! -d "${XDG_CACHE_HOME}" || ! -w "${XDG_CACHE_HOME}" ]]; then
+  export XDG_CACHE_HOME="${TMPDIR}/rapid_cache"
+fi
+if [[ -z "${MPLCONFIGDIR:-}" || ! -d "${MPLCONFIGDIR}" || ! -w "${MPLCONFIGDIR}" ]]; then
+  export MPLCONFIGDIR="${XDG_CACHE_HOME}/matplotlib"
+fi
+mkdir -p "${XDG_CACHE_HOME}" "${MPLCONFIGDIR}"
+base_pythonpath="${src_dir}:${workspace_dir}:${workspace_dir}/task_inputs"
+if [[ -d "${vendored_judo_dir}/judo" ]]; then
+  base_pythonpath="${base_pythonpath}:${vendored_judo_dir}"
+fi
+base_pythonpath="${base_pythonpath}:${repo_root}"
+export PYTHONPATH="${base_pythonpath}${PYTHONPATH:+:${PYTHONPATH}}"
+
+run_python() {
+  if [[ "${CONDA_DEFAULT_ENV:-}" == "${conda_env}" ]]; then
+    python "$@"
+  elif [[ -n "${CONDA_EXE:-}" && -x "${CONDA_EXE}" ]]; then
+    "${CONDA_EXE}" run --no-capture-output -n "${conda_env}" python "$@"
+  elif command -v conda >/dev/null 2>&1; then
+    conda run --no-capture-output -n "${conda_env}" python "$@"
+  else
+    echo "error: conda not found; activate '${conda_env}' or set CONDA_EXE" >&2
+    return 127
+  fi
+}
+
+if [[ "${1:-}" == "--rapid-env" ]]; then
+  python_path="$(run_python -c 'import sys; print(sys.executable)')"
+  cat <<EOF
+repo root           : ${RAPID_REPO_ROOT}
+workspace           : ${RAPID_WORKSPACE}
+active source       : ${RAPID_ACTIVE_SRC_DIR}
+compat source       : ${RAPID_SRC_DIR}
+conda env           : ${conda_env}
+shell conda env     : ${CONDA_DEFAULT_ENV:-}
+python              : ${python_path}
+source loading      : PYTHONPATH
+mujoco gl           : ${MUJOCO_GL}
+pyopengl platform   : ${PYOPENGL_PLATFORM}
+
+Import precedence: active source is first, followed by the active
+workspace, selected task inputs, vendored runtime dependencies,
+repo-level tooling, and any caller PYTHONPATH entries.
+EOF
+  exit 0
+fi
+
+if [[ "${CONDA_DEFAULT_ENV:-}" == "${conda_env}" ]]; then
+  exec python "$@"
+fi
+
+if [[ -n "${CONDA_EXE:-}" && -x "${CONDA_EXE}" ]]; then
+  exec "${CONDA_EXE}" run --no-capture-output -n "${conda_env}" python "$@"
+fi
+
+if command -v conda >/dev/null 2>&1; then
+  exec conda run --no-capture-output -n "${conda_env}" python "$@"
+fi
+
+echo "error: conda not found; activate '${conda_env}' or set CONDA_EXE" >&2
+exit 127

@@ -1,0 +1,9 @@
+<mujoco model="fr3">
+  <include file="assets.xml"/>
+  <include file="defaults.xml"/>
+  <worldbody>
+    <body name="fr3" pos="0 0 0" quat="1 0 0 0">
+      <include file="body.xml"/>
+    </body>
+  </worldbody>
+</mujoco>

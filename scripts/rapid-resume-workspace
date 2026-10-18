@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+source "${repo_root}/scripts/lib/experiment-root.sh"
+rapid_experiment_root_args "$@"
+set -- "${RAPID_EXPERIMENT_ARGS[@]}"
+
+usage() {
+  cat >&2 <<'EOF'
+Usage (supports --experiment-root DIR; default: RAPID_EXPERIMENT_ROOT or suite_runs):
+  ./scripts/rapid-resume-workspace RUN_OR_WORKSPACE [-- CODEX_RESUME_ARGS...]
+
+Examples:
+  ./scripts/rapid-resume-workspace fr3_osc_primitive_push_001
+  ./scripts/rapid-resume-workspace suite_runs/fr3_osc_primitive_push_001
+  ./scripts/rapid-resume-workspace suite_runs/fr3_osc_primitive_push_001/workspace
+  ./scripts/rapid-resume-workspace fr3_osc_primitive_push_001 -- 019f40c2-b820-7b30-83fd-42559de07353
+  ./scripts/rapid-resume-workspace fr3_osc_primitive_push_001 -- --all
+
+With no Codex resume args, this resumes the most recent session for the
+workspace, including non-interactive sessions created by rapid-codex-run.
+EOF
+}
+
+if [[ $# -lt 1 || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  if [[ $# -lt 1 ]]; then
+    exit 2
+  fi
+  exit 0
+fi
+
+input="${1%/}"
+shift
+if [[ "${1:-}" == "--" ]]; then
+  shift
+fi
+
+if [[ "${input}" != /* && "${input}" != */* ]]; then
+  candidate="${RAPID_EXPERIMENT_ROOT}/${input}"
+elif [[ "${input}" != /* ]]; then
+  candidate="${repo_root}/${input}"
+else
+  candidate="${input}"
+fi
+
+if [[ -d "${candidate}/workspace/src" ]]; then
+  run_dir="${candidate}"
+  workspace_dir="${candidate}/workspace"
+elif [[ -d "${candidate}/src" ]]; then
+  workspace_dir="${candidate}"
+  run_dir="$(dirname -- "${workspace_dir}")"
+else
+  echo "error: expected a suite run directory, short run name, or workspace directory: ${input}" >&2
+  echo "       looked for '${candidate}/workspace/src' or '${candidate}/src'" >&2
+  exit 1
+fi
+
+workspace_dir="$(cd -- "${workspace_dir}" && pwd -P)"
+run_dir="$(cd -- "${run_dir}" && pwd -P)"
+src_dir="${workspace_dir}/src"
+codex_home="${run_dir}/codex_home"
+agent_home="${workspace_dir}/agent_work/home"
+tmp_dir="${workspace_dir}/agent_work/tmp"
+
+if [[ ! -f "${workspace_dir}/.codex/config.toml" ]]; then
+  echo "error: missing workspace Codex config: ${workspace_dir}/.codex/config.toml" >&2
+  echo "       recreate or migrate the workspace before resuming Codex." >&2
+  exit 1
+fi
+
+if [[ ! -f "${codex_home}/config.toml" ]]; then
+  echo "error: missing run-local Codex home config: ${codex_home}/config.toml" >&2
+  echo "       run './scripts/rapid-suite create-workspace --run-dir ${run_dir}' or migrate the workspace." >&2
+  exit 1
+fi
+
+mkdir -p "${agent_home}" "${tmp_dir}"
+
+export RAPID_REPO_ROOT="${repo_root}"
+export RAPID_WORKSPACE="${workspace_dir}"
+export RAPID_ACTIVE_SRC_DIR="${src_dir}"
+export RAPID_SRC_DIR="${src_dir}"
+export RAPID_CODEX_PERMISSION_PROFILE="1"
+export CODEX_HOME="${codex_home}"
+export CODEX_SQLITE_HOME="${codex_home}"
+export HOME="${agent_home}"
+export TMPDIR="${tmp_dir}"
+export PYTHONDONTWRITEBYTECODE="${PYTHONDONTWRITEBYTECODE:-1}"
+export PYTHONNOUSERSITE="${PYTHONNOUSERSITE:-1}"
+export MUJOCO_GL="${MUJOCO_GL:-egl}"
+export PYOPENGL_PLATFORM="${PYOPENGL_PLATFORM:-egl}"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-${TMPDIR}/rapid_cache}"
+export MPLCONFIGDIR="${MPLCONFIGDIR:-${XDG_CACHE_HOME}/matplotlib}"
+mkdir -p "${XDG_CACHE_HOME}" "${MPLCONFIGDIR}"
+
+resume_args=("$@")
+if ((${#resume_args[@]} == 0)); then
+  resume_args=(--last)
+fi
+
+cd "${workspace_dir}"
+exec codex resume -C "${workspace_dir}" --include-non-interactive "${resume_args[@]}"

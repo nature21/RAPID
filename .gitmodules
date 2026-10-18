@@ -1,0 +1,3 @@
+[submodule "third_party/judo"]
+	path = third_party/judo
+	url = https://github.com/nature21/Judo-osc.git

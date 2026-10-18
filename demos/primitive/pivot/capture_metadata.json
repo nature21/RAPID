@@ -1,0 +1,83 @@
+{
+  "annotation": {
+    "constraints_strategy": "The opening is narrow, so the box must reach an insertion-compatible orientation first.",
+    "contact_mode": "Contact shifts across corners and faces while the box pivots and slides.",
+    "demo": 6,
+    "primitive": "reorient",
+    "phase": 1,
+    "phase_summary": "Rotate and reposition the flat box to align it with the narrow storage gap."
+  },
+  "calibration": {
+    "extrinsics_parent_frame": "fr3_link0",
+    "extrinsics_sha256": "ef4119ffd56d63912be4e0d9bf441fe42e6c834b0feb05d161a564270cdb2cd5",
+    "extrinsics_supplied": true,
+    "intrinsics_sha256": "a2730e7605332548bb2b3cf0480183a4355923c94b8ba3acb582fc2fcff1f56d",
+    "intrinsics_supplied": true
+  },
+  "camera": {
+    "firmware_version": "1.5.4.1",
+    "name": "Intel RealSense L515",
+    "product_line": "L500",
+    "serial_number": "f1381556",
+    "usb_type_descriptor": "3.2"
+  },
+  "capture_type": "aligned_rgbd_demo_segment",
+  "color_shape": [
+    720,
+    1280,
+    3
+  ],
+  "depth_preview_range_meters": [
+    0.2,
+    2.0
+  ],
+  "depth_scale_meters_per_unit": 0.0002500000118743628,
+  "depth_shape": [
+    720,
+    1280
+  ],
+  "depth_units": "meters",
+  "files": {
+    "depth_preview": "depth.png",
+    "extrinsics": "panda_eob_calib.yaml",
+    "first_color": "color.png",
+    "first_metric_depth": "depth.npy",
+    "intrinsics": "intrinsics.json",
+    "rgb_video": "rgb.mp4",
+    "timestamps": "timestamps.csv"
+  },
+  "frame_count": 159,
+  "generated_at": "2026-08-26T11:12:06.441036+00:00",
+  "nominal_fps": 30.0,
+  "provenance": {
+    "first_depth_source_frame": 0,
+    "manifest": "demos/strategy/segments.csv",
+    "requested_time_range_seconds": [
+      0.0,
+      5.25
+    ],
+    "root_source_frame_range": [
+      56,
+      215
+    ],
+    "root_source_time_range_seconds": [
+      2.023524,
+      7.264784
+    ],
+    "source_capture_metadata": "demos/strategy/demo_6/capture_metadata.json",
+    "source_demo": "demos/strategy/demo_6",
+    "source_depth_video": "demos/strategy/demo_6/depth.mkv",
+    "source_frame_range": [
+      0,
+      159
+    ],
+    "source_time_range_seconds": [
+      0.0,
+      5.24126
+    ]
+  },
+  "registration": "depth_aligned_to_color",
+  "schema_version": 1,
+  "sensor_duration_seconds": 5.24126,
+  "world_frame": "fr3_link0"
+}

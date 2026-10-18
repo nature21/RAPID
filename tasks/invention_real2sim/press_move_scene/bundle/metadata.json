@@ -1,0 +1,24 @@
+{
+  "objects": [
+    {
+      "body": "purple_carton",
+      "name": "purple carton",
+      "safe_name": "purple_carton"
+    },
+    {
+      "body": "cheez_it_box",
+      "name": "Cheez-It box",
+      "safe_name": "cheez_it_box"
+    },
+    {
+      "body": "brown_cardboard_box",
+      "name": "brown cardboard box",
+      "safe_name": "brown_cardboard_box"
+    },
+    {
+      "body": "large_white_divider",
+      "name": "large white divider",
+      "safe_name": "large_white_divider"
+    }
+  ]
+}

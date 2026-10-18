@@ -1,0 +1,23 @@
+id: example_primitive_construction
+stage: primitive_construction
+description: Construction-stage suite for inventing primitives from a zero-primitive baseline.
+protocol:
+  mode: cumulative_workspace
+  output: learned_workspace
+scenarios:
+  - id: construction_push
+    task_type: primitive
+    demo_paths:
+      - demos/primitive/push/rgb.mp4
+    task_bind_roots:
+      - tasks/invention_real2sim/push_scene
+    env_module: tasks.invention_real2sim.push_scene
+    expected_output:
+      - primitives/<generated_primitive>
+      - instantiations/primitives/<generated_primitive>/example_0
+    replay_module: tasks.invention_real2sim.push_scene.replay
+metrics:
+  seeds: [0, 1, 2, 3, 4]
+  required_artifacts:
+    - src/primitives
+    - src/instantiations/primitives

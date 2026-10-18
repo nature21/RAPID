@@ -1,0 +1,85 @@
+{
+  "source_commit": "3815c9204d2faee027345e2d042d4fbba15ef7bc",
+  "tasks": {
+    "1": {
+      "target": "red_cheez_it_box",
+      "phases": [
+        "planar_push",
+        "recontact_push",
+        "stored"
+      ],
+      "fingerprint": "a159596dc390b66347b00d50fef26e0fb35a0217c383749ae3cd18dffe5d00d6",
+      "demo_rgb_sha256": "bec5a40a48fc986776989aebc99f3cf971e9c76551000fb98e649e415b7f38bf"
+    },
+    "2": {
+      "target": "cheez_it_box",
+      "phases": [
+        "push_to_wall",
+        "wall_assisted_flip",
+        "edge_grasp_lift"
+      ],
+      "fingerprint": "5fd2cbb1fece3096abb321bbf112869be3112906bf35e389dbfe4e8308fcd7df",
+      "demo_rgb_sha256": "b86d7698fce5f4541dbbbf469bbae34d990383ba3b321f9761caffa86448fee6"
+    },
+    "3": {
+      "target": "cheez_it_box",
+      "phases": [
+        "obstacle_clearance_pull",
+        "push_to_wall",
+        "wall_assisted_flip",
+        "edge_grasp_lift"
+      ],
+      "fingerprint": "d39417295b7bf6449f6f6994014f38194820dc769799f95da2a5ef5bba82a359",
+      "demo_rgb_sha256": "3e8d9f7cbbdf664b1c4d5b048ce611ec6999590821592d03bce4c3335110c3ca"
+    },
+    "4": {
+      "target": "cheez_it_box",
+      "phases": [
+        "push_to_wall",
+        "wall_assisted_flip",
+        "clearance_pull",
+        "edge_grasp_lift"
+      ],
+      "fingerprint": "7883518f9c8a510421b6eef4f52fe2c35f4b5f620d7762704de64855bce0ea8c",
+      "demo_rgb_sha256": "40bebcd9e4bb90eec2ffb432a546c09d5fc9432bff5af9262d92bbb31a1600c0"
+    },
+    "5": {
+      "target": "cheez_it_box",
+      "phases": [
+        "push_to_wall",
+        "wall_assisted_flip_align",
+        "slot_pull"
+      ],
+      "fingerprint": "08388c199464472ab3d3ae15e6defa4fa08f4b5a105210e8055bb23581d6952d",
+      "demo_rgb_sha256": "75c0ea03ecd23a13e1a8868252a8addfb3b7e2c466db0e14ca6546196ae71186"
+    },
+    "6": {
+      "target": "blue_product_box",
+      "phases": [
+        "reorient",
+        "push_to_slot",
+        "slot_push"
+      ],
+      "fingerprint": "3e33576f38837b39b45fdb7315b5ac76804d8911d09d20ff0ee02be6b5f3f964",
+      "demo_rgb_sha256": "d60b302eaa9f746bfa06071670385f27bf758e511a6798783da49ecff12d90ce"
+    },
+    "7": {
+      "target": "cheez_it_box",
+      "phases": [
+        "topple_expose_edge",
+        "edge_grasp_lift"
+      ],
+      "fingerprint": "5f5150dc3ccdad5cd509a8c96f9f69846a7140e13680f489be0e1fb951a59906",
+      "demo_rgb_sha256": "4e30edd065550a20a31478b3add147aab8fe9a582290c217d6ea46ddc02f692f"
+    },
+    "8": {
+      "target": "book",
+      "phases": [
+        "move_to_edge",
+        "edge_grasp_lift"
+      ],
+      "fingerprint": "a9e5fd66374111f57b08736891ed15587287a24501a5f491d31ed89825618b11",
+      "demo_rgb_sha256": "83226e25d22affb70de287570458df9b342610a4f2305468e45e0d4ec77bdb9b"
+    }
+  }
+}

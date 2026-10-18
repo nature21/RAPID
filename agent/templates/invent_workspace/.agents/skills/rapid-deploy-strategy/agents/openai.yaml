@@ -1,0 +1,4 @@
+interface:
+  display_name: "Deploy RAPID Strategy"
+  short_description: "Bind a frozen strategy to a held-out scene"
+  default_prompt: "Use $rapid-deploy-strategy to bind this frozen strategy to the assigned scene."

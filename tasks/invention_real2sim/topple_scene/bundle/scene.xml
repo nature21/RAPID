@@ -1,0 +1,196 @@
+<mujoco model="real2sim_topple_scene">
+  <compiler angle="radian" meshdir="." strippath="false" />
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="Euler" />
+  <visual>
+    <headlight ambient="0.40 0.40 0.40" diffuse="0.48 0.48 0.48" specular="0.08 0.08 0.08" />
+  </visual>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1=".58 .48 .36" rgb2=".42 .34 .24" width="300" height="300" />
+    <material name="grid" texture="grid" texrepeat="4 4" texuniform="true" reflectance=".06" />
+    <mesh name="left_white_divider_mesh" file="meshes/left_white_divider_visual_00.obj" />
+    <material name="left_white_divider_mesh_mat" rgba="0.48974038 0.48602869 0.47669534 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_1" file="meshes/left_white_divider_visual_01.obj" />
+    <material name="left_white_divider_mesh_1_mat" rgba="0.66008468 0.66185929 0.65666356 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_2" file="meshes/left_white_divider_visual_02.obj" />
+    <material name="left_white_divider_mesh_2_mat" rgba="0.32150801 0.31742332 0.30033947 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_3" file="meshes/left_white_divider_visual_03.obj" />
+    <material name="left_white_divider_mesh_3_mat" rgba="0.88270374 0.88266681 0.88087589 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_4" file="meshes/left_white_divider_visual_04.obj" />
+    <material name="left_white_divider_mesh_4_mat" rgba="0.40713974 0.3940803 0.38726424 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_5" file="meshes/left_white_divider_visual_05.obj" />
+    <material name="left_white_divider_mesh_5_mat" rgba="0.41394336 0.40604896 0.39507882 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_6" file="meshes/left_white_divider_visual_06.obj" />
+    <material name="left_white_divider_mesh_6_mat" rgba="0.24025571 0.23155384 0.19199466 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_white_divider_mesh_7" file="meshes/left_white_divider_visual_07.obj" />
+    <material name="left_white_divider_mesh_7_mat" rgba="0.60493322 0.61236715 0.59312305 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh" file="meshes/right_white_divider_visual_00.obj" />
+    <material name="right_white_divider_mesh_mat" rgba="0.53351777 0.53163191 0.52421499 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_1" file="meshes/right_white_divider_visual_01.obj" />
+    <material name="right_white_divider_mesh_1_mat" rgba="0.68585952 0.68625858 0.68280833 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_2" file="meshes/right_white_divider_visual_02.obj" />
+    <material name="right_white_divider_mesh_2_mat" rgba="0.87655931 0.87681069 0.87703842 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_3" file="meshes/right_white_divider_visual_03.obj" />
+    <material name="right_white_divider_mesh_3_mat" rgba="0.33629292 0.33308939 0.33885207 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_4" file="meshes/right_white_divider_visual_04.obj" />
+    <material name="right_white_divider_mesh_4_mat" rgba="0.60586986 0.60781816 0.59397194 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_5" file="meshes/right_white_divider_visual_05.obj" />
+    <material name="right_white_divider_mesh_5_mat" rgba="0.60151803 0.59675311 0.59354839 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_6" file="meshes/right_white_divider_visual_06.obj" />
+    <material name="right_white_divider_mesh_6_mat" rgba="0.41960784 0.4209572 0.38853047 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_white_divider_mesh_7" file="meshes/right_white_divider_visual_07.obj" />
+    <material name="right_white_divider_mesh_7_mat" rgba="0.59699346 0.60291939 0.58740741 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh" file="meshes/left_dark_snack_box_visual_00.obj" />
+    <material name="left_dark_snack_box_mesh_mat" rgba="0.31112996 0.31076203 0.27173404 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_1" file="meshes/left_dark_snack_box_visual_01.obj" />
+    <material name="left_dark_snack_box_mesh_1_mat" rgba="0.2463269 0.23306473 0.17400151 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_2" file="meshes/left_dark_snack_box_visual_02.obj" />
+    <material name="left_dark_snack_box_mesh_2_mat" rgba="0.14161055 0.15340414 0.12876642 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_3" file="meshes/left_dark_snack_box_visual_03.obj" />
+    <material name="left_dark_snack_box_mesh_3_mat" rgba="0.47504256 0.49432295 0.46988916 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_4" file="meshes/left_dark_snack_box_visual_04.obj" />
+    <material name="left_dark_snack_box_mesh_4_mat" rgba="0.16625171 0.24746981 0.2221745 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_5" file="meshes/left_dark_snack_box_visual_05.obj" />
+    <material name="left_dark_snack_box_mesh_5_mat" rgba="0.17670744 0.21247227 0.18141452 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_6" file="meshes/left_dark_snack_box_visual_06.obj" />
+    <material name="left_dark_snack_box_mesh_6_mat" rgba="0.21196641 0.19241675 0.13745273 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="left_dark_snack_box_mesh_7" file="meshes/left_dark_snack_box_visual_07.obj" />
+    <material name="left_dark_snack_box_mesh_7_mat" rgba="0.5211119 0.68771294 0.64927947 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh" file="meshes/purple_snack_box_visual_00.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_mat" rgba="0.30418484 0.27990559 0.26741382 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_1" file="meshes/purple_snack_box_visual_01.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_1_mat" rgba="0.15035188 0.13362284 0.13215903 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_2" file="meshes/purple_snack_box_visual_02.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_2_mat" rgba="0.27085772 0.15843006 0.13228346 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_3" file="meshes/purple_snack_box_visual_03.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_3_mat" rgba="0.29662908 0.21630782 0.16034923 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_4" file="meshes/purple_snack_box_visual_04.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_4_mat" rgba="0.47912727 0.12932504 0.091010428 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_5" file="meshes/purple_snack_box_visual_05.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_5_mat" rgba="0.45360419 0.3381876 0.29367721 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_6" file="meshes/purple_snack_box_visual_06.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_6_mat" rgba="0.49937225 0.47238654 0.46481297 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="purple_snack_box_mesh_7" file="meshes/purple_snack_box_visual_07.obj" scale="0.84 1 1" />
+    <material name="purple_snack_box_mesh_7_mat" rgba="0.47906772 0.25737834 0.13000978 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh" file="meshes/cheez_it_box_visual_00.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_mat" rgba="0.51164932 0.10454835 0.075426083 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_1" file="meshes/cheez_it_box_visual_01.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_1_mat" rgba="0.54009066 0.24908935 0.14900582 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_2" file="meshes/cheez_it_box_visual_02.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_2_mat" rgba="0.65246345 0.11752849 0.093430953 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_3" file="meshes/cheez_it_box_visual_03.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_3_mat" rgba="0.639472 0.28313256 0.14759708 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_4" file="meshes/cheez_it_box_visual_04.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_4_mat" rgba="0.64613408 0.32363701 0.24614145 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_5" file="meshes/cheez_it_box_visual_05.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_5_mat" rgba="0.5426301 0.30285019 0.24603159 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_6" file="meshes/cheez_it_box_visual_06.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_6_mat" rgba="0.66265711 0.4336308 0.30102648 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="cheez_it_box_mesh_7" file="meshes/cheez_it_box_visual_07.obj" scale="0.738095238 1 1" />
+    <material name="cheez_it_box_mesh_7_mat" rgba="0.37669028 0.15779645 0.099181633 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh" file="meshes/right_red_orange_snack_box_visual_00.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_mat" rgba="0.5067011 0.14274709 0.064666718 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_1" file="meshes/right_red_orange_snack_box_visual_01.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_1_mat" rgba="0.32846213 0.11925318 0.074001957 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_2" file="meshes/right_red_orange_snack_box_visual_02.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_2_mat" rgba="0.48791394 0.23745234 0.14460376 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_3" file="meshes/right_red_orange_snack_box_visual_03.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_3_mat" rgba="0.46056959 0.32797273 0.24804581 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_4" file="meshes/right_red_orange_snack_box_visual_04.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_4_mat" rgba="0.64117552 0.16453844 0.063188439 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_5" file="meshes/right_red_orange_snack_box_visual_05.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_5_mat" rgba="0.68375987 0.26683007 0.11085434 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_6" file="meshes/right_red_orange_snack_box_visual_06.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_6_mat" rgba="0.35933757 0.28518596 0.22099877 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="right_red_orange_snack_box_mesh_7" file="meshes/right_red_orange_snack_box_visual_07.obj" scale="0.708860759 1 1" />
+    <material name="right_red_orange_snack_box_mesh_7_mat" rgba="0.33777834 0.25108791 0.16497751 1" specular="0" shininess="0" reflectance="0" />
+  </asset>
+  <default>
+    <geom condim="4" friction="0.7 0.01 0.001" solref="0.01 0.965" solimp="0.9 0.95 0.001" />
+  </default>
+  <worldbody>
+    <light name="key" pos="-0.57760363 -0.76898141 2.478229" dir="1 1 -2.4" diffuse="0.50 0.50 0.50" specular="0.06 0.06 0.06" />
+    <light name="fill" pos="1.7223964 1.1310186 1.878229" dir="-1 -0.8 -1.8" diffuse="0.28 0.28 0.28" specular="0.02 0.02 0.02" />
+    <light name="overhead" pos="0.62239637 0.23101859 2.278229" dir="0 0 -1" diffuse="0.16 0.16 0.16" specular="0.01 0.01 0.01" />
+    <geom name="floor" type="plane" pos="0 0 0.050938545" size="1 1 0.01" material="grid" condim="4" friction="0.44 0.01 0.001" solref="0.01 0.979" solimp="0.9 0.95 0.001" />
+    <body name="left_white_divider" pos="0.37805675 0.24021834 0.19075721" quat="0.99943559 0.007545767 0.032734603 0">
+      <geom name="left_white_divider_visual" type="mesh" mesh="left_white_divider_mesh" material="left_white_divider_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_1" type="mesh" mesh="left_white_divider_mesh_1" material="left_white_divider_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_2" type="mesh" mesh="left_white_divider_mesh_2" material="left_white_divider_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_3" type="mesh" mesh="left_white_divider_mesh_3" material="left_white_divider_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_4" type="mesh" mesh="left_white_divider_mesh_4" material="left_white_divider_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_5" type="mesh" mesh="left_white_divider_mesh_5" material="left_white_divider_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_6" type="mesh" mesh="left_white_divider_mesh_6" material="left_white_divider_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_visual_7" type="mesh" mesh="left_white_divider_mesh_7" material="left_white_divider_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_white_divider_collision" type="box" pos="0.00018725468 -9.7458839e-05 -0.00033364574" quat="0.0326331 -0.013798709 0.71167169 0.70161819" size="0.063751568 0.13814954 0.22012869" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.42 0.012 0.001" solref="0.01 0.986" solimp="0.9 0.95 0.001" />
+      <site name="left_white_divider_site" pos="0 0 0" />
+    </body>
+    <body name="right_white_divider" pos="0.8757625 0.12336213 0.27476707" quat="0.99987764 0.010640882 0.011466649 0">
+      <geom name="right_white_divider_visual" type="mesh" mesh="right_white_divider_mesh" material="right_white_divider_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_1" type="mesh" mesh="right_white_divider_mesh_1" material="right_white_divider_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_2" type="mesh" mesh="right_white_divider_mesh_2" material="right_white_divider_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_3" type="mesh" mesh="right_white_divider_mesh_3" material="right_white_divider_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_4" type="mesh" mesh="right_white_divider_mesh_4" material="right_white_divider_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_5" type="mesh" mesh="right_white_divider_mesh_5" material="right_white_divider_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_6" type="mesh" mesh="right_white_divider_mesh_6" material="right_white_divider_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_visual_7" type="mesh" mesh="right_white_divider_mesh_7" material="right_white_divider_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_white_divider_collision" type="box" pos="0.00035255131 -0.00010588029 -3.3573614e-06" quat="0.010891535 0.99963375 0.022082912 0.011228841" size="0.048764648 0.11270689 0.22299314" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.42 0.012 0.001" solref="0.01 0.986" solimp="0.9 0.95 0.001" />
+      <site name="right_white_divider_site" pos="0 0 0" />
+    </body>
+    <body name="left_dark_snack_box" pos="0.49442871 0.1352678 0.17173824">
+      <freejoint name="left_dark_snack_box_joint" />
+      <inertial mass="0.24" diaginertia="0.0020606678 0.0011619069 0.0011167499" pos="-0.00016849554 0.00016718727 0.00049336002" quat="0.012732712 0.044644826 -0.7280812 -0.68391701" />
+      <geom name="left_dark_snack_box_visual" type="mesh" mesh="left_dark_snack_box_mesh" material="left_dark_snack_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_1" type="mesh" mesh="left_dark_snack_box_mesh_1" material="left_dark_snack_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_2" type="mesh" mesh="left_dark_snack_box_mesh_2" material="left_dark_snack_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_3" type="mesh" mesh="left_dark_snack_box_mesh_3" material="left_dark_snack_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_4" type="mesh" mesh="left_dark_snack_box_mesh_4" material="left_dark_snack_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_5" type="mesh" mesh="left_dark_snack_box_mesh_5" material="left_dark_snack_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_6" type="mesh" mesh="left_dark_snack_box_mesh_6" material="left_dark_snack_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_visual_7" type="mesh" mesh="left_dark_snack_box_mesh_7" material="left_dark_snack_box_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="left_dark_snack_box_collision" type="box" pos="-0.00016849554 0.00016718727 0.00049336002" quat="0.012732712 0.044644826 -0.7280812 -0.68391701" size="0.036911131 0.1122361 0.11472317" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.39 0.007 0.0008" solref="0.01 0.9825" solimp="0.9 0.95 0.001" />
+      <site name="left_dark_snack_box_site" pos="0 0 0" />
+    </body>
+    <body name="purple_snack_box" pos="0.58559452 0.13110919 0.16894368">
+      <freejoint name="purple_snack_box_joint" />
+      <inertial mass="0.3" diaginertia="0.00207102573 0.00125305094 0.00125212655" pos="-9.26973768e-05 -0.00067575208 -3.642363e-06" quat="0.013648143 -0.022923659 0.99672727 -0.076308509" />
+      <geom name="purple_snack_box_visual" type="mesh" mesh="purple_snack_box_mesh" material="purple_snack_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_1" type="mesh" mesh="purple_snack_box_mesh_1" material="purple_snack_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_2" type="mesh" mesh="purple_snack_box_mesh_2" material="purple_snack_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_3" type="mesh" mesh="purple_snack_box_mesh_3" material="purple_snack_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_4" type="mesh" mesh="purple_snack_box_mesh_4" material="purple_snack_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_5" type="mesh" mesh="purple_snack_box_mesh_5" material="purple_snack_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_6" type="mesh" mesh="purple_snack_box_mesh_6" material="purple_snack_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_visual_7" type="mesh" mesh="purple_snack_box_mesh_7" material="purple_snack_box_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="purple_snack_box_collision" type="box" pos="-9.26973768e-05 -0.00067575208 -3.642363e-06" quat="0.013648143 -0.022923659 0.99672727 -0.076308509" size="0.046591403 0.10173744 0.10178286" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.39 0.008 0.0008" solref="0.01 0.9825" solimp="0.9 0.95 0.001" />
+      <site name="purple_snack_box_site" pos="0 0 0" />
+    </body>
+    <body name="cheez_it_box" pos="0.67415579 0.13590215 0.16849325">
+      <freejoint name="cheez_it_box_joint" />
+      <inertial mass="0.34" diaginertia="0.0029170362 0.00158005921 0.00152610206" pos="-0.000348622154 9.9079989e-05 -0.00021126734" quat="0.0065528051 0.014641393 0.72207045 0.69163354" />
+      <geom name="cheez_it_box_visual" type="mesh" mesh="cheez_it_box_mesh" material="cheez_it_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_1" type="mesh" mesh="cheez_it_box_mesh_1" material="cheez_it_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_2" type="mesh" mesh="cheez_it_box_mesh_2" material="cheez_it_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_3" type="mesh" mesh="cheez_it_box_mesh_3" material="cheez_it_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_4" type="mesh" mesh="cheez_it_box_mesh_4" material="cheez_it_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_5" type="mesh" mesh="cheez_it_box_mesh_5" material="cheez_it_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_6" type="mesh" mesh="cheez_it_box_mesh_6" material="cheez_it_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_visual_7" type="mesh" mesh="cheez_it_box_mesh_7" material="cheez_it_box_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="cheez_it_box_collision" type="box" pos="-0.000348622154 9.9079989e-05 -0.00021126734" quat="0.0065528051 0.014641393 0.72207045 0.69163354" size="0.0288855557 0.11238875 0.11448722" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.39 0.008 0.0008" solref="0.01 0.9825" solimp="0.9 0.95 0.001" />
+      <site name="cheez_it_box_site" pos="0 0 0" />
+    </body>
+    <body name="right_red_orange_snack_box" pos="0.76803101 0.14687713 0.19761913">
+      <freejoint name="right_red_orange_snack_box_joint" />
+      <inertial mass="0.42" diaginertia="0.00455743669 0.00260612167 0.00258058604" pos="7.60678485e-05 0.00096037417 -3.9222737e-05" quat="0.072435584 0.99591192 0.053849972 0.0035650728" />
+      <geom name="right_red_orange_snack_box_visual" type="mesh" mesh="right_red_orange_snack_box_mesh" material="right_red_orange_snack_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_1" type="mesh" mesh="right_red_orange_snack_box_mesh_1" material="right_red_orange_snack_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_2" type="mesh" mesh="right_red_orange_snack_box_mesh_2" material="right_red_orange_snack_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_3" type="mesh" mesh="right_red_orange_snack_box_mesh_3" material="right_red_orange_snack_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_4" type="mesh" mesh="right_red_orange_snack_box_mesh_4" material="right_red_orange_snack_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_5" type="mesh" mesh="right_red_orange_snack_box_mesh_5" material="right_red_orange_snack_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_6" type="mesh" mesh="right_red_orange_snack_box_mesh_6" material="right_red_orange_snack_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_visual_7" type="mesh" mesh="right_red_orange_snack_box_mesh_7" material="right_red_orange_snack_box_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="right_red_orange_snack_box_collision" type="box" pos="7.60678485e-05 0.00096037417 -3.9222737e-05" quat="0.072435584 0.99591192 0.053849972 0.0035650728" size="0.0474067135 0.1272217 0.12793654" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.39 0.009 0.0008" solref="0.01 0.9825" solimp="0.9 0.95 0.001" />
+      <site name="right_red_orange_snack_box_site" pos="0 0 0" />
+    </body>
+  </worldbody>
+</mujoco>

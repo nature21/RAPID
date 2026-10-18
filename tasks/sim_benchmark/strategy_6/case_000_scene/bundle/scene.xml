@@ -1,0 +1,103 @@
+<mujoco model="sim_benchmark_strategy_6_case_000_scene">
+  <compiler angle="radian" meshdir="." strippath="false" />
+  <option timestep="0.005" gravity="0 0 -9.81" integrator="Euler" />
+  <visual>
+    <headlight ambient="0.40 0.40 0.40" diffuse="0.48 0.48 0.48" specular="0.08 0.08 0.08" />
+  </visual>
+  <asset>
+    <texture name="grid" type="2d" builtin="checker" rgb1=".58 .48 .36" rgb2=".42 .34 .24" width="300" height="300" />
+    <material name="grid" texture="grid" texrepeat="4 4" texuniform="true" reflectance=".06" />
+    <mesh name="brown_cardboard_box_mesh" file="meshes/brown_cardboard_box_visual_00.obj" />
+    <material name="brown_cardboard_box_mesh_mat" rgba="0.46044284 0.32111656 0.17352043 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="brown_cardboard_box_mesh_1" file="meshes/brown_cardboard_box_visual_01.obj" />
+    <material name="brown_cardboard_box_mesh_1_mat" rgba="0.50242455 0.36355459 0.21514231 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="brown_cardboard_box_mesh_2" file="meshes/brown_cardboard_box_visual_02.obj" />
+    <material name="brown_cardboard_box_mesh_2_mat" rgba="0.37122714 0.24340516 0.12654182 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="brown_cardboard_box_mesh_3" file="meshes/brown_cardboard_box_visual_03.obj" />
+    <material name="brown_cardboard_box_mesh_3_mat" rgba="0.51934012 0.3974523 0.24018863 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="brown_cardboard_box_mesh_4" file="meshes/brown_cardboard_box_visual_04.obj" />
+    <material name="brown_cardboard_box_mesh_4_mat" rgba="0.52 0.41191717 0.2509993 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="brown_cardboard_box_mesh_5" file="meshes/brown_cardboard_box_visual_05.obj" />
+    <material name="brown_cardboard_box_mesh_5_mat" rgba="0.2953159 0.1916122 0.12429194 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="brown_cardboard_box_mesh_6" file="meshes/brown_cardboard_box_visual_06.obj" />
+    <material name="brown_cardboard_box_mesh_6_mat" rgba="0.52 0.41376471 0.26447059 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh" file="meshes/white_product_box_visual_00.obj" />
+    <material name="white_product_box_mesh_mat" rgba="0.51519081 0.4866051 0.45402361 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_1" file="meshes/white_product_box_visual_01.obj" />
+    <material name="white_product_box_mesh_1_mat" rgba="0.44340656 0.41627013 0.38414384 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_2" file="meshes/white_product_box_visual_02.obj" />
+    <material name="white_product_box_mesh_2_mat" rgba="0.31943425 0.29889388 0.27877947 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_3" file="meshes/white_product_box_visual_03.obj" />
+    <material name="white_product_box_mesh_3_mat" rgba="0.10507699 0.099154846 0.090600781 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_4" file="meshes/white_product_box_visual_04.obj" />
+    <material name="white_product_box_mesh_4_mat" rgba="0.41655001 0.38732229 0.35699897 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_5" file="meshes/white_product_box_visual_05.obj" />
+    <material name="white_product_box_mesh_5_mat" rgba="0.71774116 0.69640181 0.6676847 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_6" file="meshes/white_product_box_visual_06.obj" />
+    <material name="white_product_box_mesh_6_mat" rgba="0.61725305 0.58601029 0.55437352 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="white_product_box_mesh_7" file="meshes/white_product_box_visual_07.obj" />
+    <material name="white_product_box_mesh_7_mat" rgba="0.64728697 0.61826982 0.57955975 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh" file="meshes/blue_product_box_visual_00.obj" />
+    <material name="blue_product_box_mesh_mat" rgba="0.063042397 0.24865406 0.50267839 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_1" file="meshes/blue_product_box_visual_01.obj" />
+    <material name="blue_product_box_mesh_1_mat" rgba="0.27992509 0.26560966 0.30869955 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_2" file="meshes/blue_product_box_visual_02.obj" />
+    <material name="blue_product_box_mesh_2_mat" rgba="0.043381064 0.16950141 0.49192149 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_3" file="meshes/blue_product_box_visual_03.obj" />
+    <material name="blue_product_box_mesh_3_mat" rgba="0.044798434 0.31647237 0.67795082 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_4" file="meshes/blue_product_box_visual_04.obj" />
+    <material name="blue_product_box_mesh_4_mat" rgba="0.078204123 0.14173756 0.29325691 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_5" file="meshes/blue_product_box_visual_05.obj" />
+    <material name="blue_product_box_mesh_5_mat" rgba="0.29079338 0.13813679 0.1389186 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_6" file="meshes/blue_product_box_visual_06.obj" />
+    <material name="blue_product_box_mesh_6_mat" rgba="0.11099131 0.093310783 0.13737822 1" specular="0" shininess="0" reflectance="0" />
+    <mesh name="blue_product_box_mesh_7" file="meshes/blue_product_box_visual_07.obj" />
+    <material name="blue_product_box_mesh_7_mat" rgba="0.14776705 0.22820018 0.3482392 1" specular="0" shininess="0" reflectance="0" />
+  </asset>
+  <default>
+    <geom condim="4" friction="0.7 0.01 0.001" solref="0.01 0.965" solimp="0.9 0.95 0.001" />
+  </default>
+  <worldbody>
+    <light name="key" pos="-0.55043733 -0.82400346 2.3202679" dir="1 1 -2.4" diffuse="0.50 0.50 0.50" specular="0.06 0.06 0.06" />
+    <light name="fill" pos="1.7495627 1.0759965 1.7202679" dir="-1 -0.8 -1.8" diffuse="0.28 0.28 0.28" specular="0.02 0.02 0.02" />
+    <light name="overhead" pos="0.64956267 0.17599654 2.1202679" dir="0 0 -1" diffuse="0.16 0.16 0.16" specular="0.01 0.01 0.01" />
+    <geom name="floor" type="plane" pos="0 0 0.052845287" size="1 1 0.01" material="grid" condim="4" friction="0.48 0.01 0.001" solref="0.01 0.979" solimp="0.9 0.95 0.001" />
+    <body name="brown_cardboard_box" pos="0.50356725 0.27590805 0.12026789">
+      <geom name="brown_cardboard_box_visual" type="mesh" mesh="brown_cardboard_box_mesh" material="brown_cardboard_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_visual_1" type="mesh" mesh="brown_cardboard_box_mesh_1" material="brown_cardboard_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_visual_2" type="mesh" mesh="brown_cardboard_box_mesh_2" material="brown_cardboard_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_visual_3" type="mesh" mesh="brown_cardboard_box_mesh_3" material="brown_cardboard_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_visual_4" type="mesh" mesh="brown_cardboard_box_mesh_4" material="brown_cardboard_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_visual_5" type="mesh" mesh="brown_cardboard_box_mesh_5" material="brown_cardboard_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_visual_6" type="mesh" mesh="brown_cardboard_box_mesh_6" material="brown_cardboard_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="brown_cardboard_box_collision" type="box" pos="5.6953512e-05 5.1142593e-05 0.00020476157" quat="0.023136019 0.71813363 0.0073050618 -0.69548217" size="0.059274641 0.12147255 0.12182985" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.44 0.008 0.001" solref="0.01 0.979" solimp="0.9 0.95 0.001" />
+      <site name="brown_cardboard_box_site" pos="0 0 0" />
+    </body>
+    <body name="white_product_box" pos="0.81768253 0.30165171 0.11099834">
+      <geom name="white_product_box_visual" type="mesh" mesh="white_product_box_mesh" material="white_product_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_1" type="mesh" mesh="white_product_box_mesh_1" material="white_product_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_2" type="mesh" mesh="white_product_box_mesh_2" material="white_product_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_3" type="mesh" mesh="white_product_box_mesh_3" material="white_product_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_4" type="mesh" mesh="white_product_box_mesh_4" material="white_product_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_5" type="mesh" mesh="white_product_box_mesh_5" material="white_product_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_6" type="mesh" mesh="white_product_box_mesh_6" material="white_product_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_visual_7" type="mesh" mesh="white_product_box_mesh_7" material="white_product_box_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="white_product_box_collision" type="box" pos="7.3183037e-05 -1.261956e-05 -0.00013330795" quat="0.49779141 -0.51948553 0.47756156 0.50425534" size="0.049810492 0.10082526 0.13987099" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.38 0.007 0.001" solref="0.01 0.972" solimp="0.9 0.95 0.001" />
+      <site name="white_product_box_site" pos="0 0 0" />
+    </body>
+    <body name="blue_product_box" pos="0.47881644 -0.044278879 0.088540846">
+      <freejoint name="blue_product_box_joint" />
+      <inertial mass="0.16" diaginertia="0.00062944204 0.00059488648 0.00010865418" pos="5.4894856e-05 -0.00020033128 -0.00013326162" quat="0.71566132 -0.08920003 0.69251421 -0.017213268" />
+      <geom name="blue_product_box_visual" type="mesh" mesh="blue_product_box_mesh" material="blue_product_box_mesh_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_1" type="mesh" mesh="blue_product_box_mesh_1" material="blue_product_box_mesh_1_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_2" type="mesh" mesh="blue_product_box_mesh_2" material="blue_product_box_mesh_2_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_3" type="mesh" mesh="blue_product_box_mesh_3" material="blue_product_box_mesh_3_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_4" type="mesh" mesh="blue_product_box_mesh_4" material="blue_product_box_mesh_4_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_5" type="mesh" mesh="blue_product_box_mesh_5" material="blue_product_box_mesh_5_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_6" type="mesh" mesh="blue_product_box_mesh_6" material="blue_product_box_mesh_6_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_visual_7" type="mesh" mesh="blue_product_box_mesh_7" material="blue_product_box_mesh_7_mat" contype="0" conaffinity="0" density="0" group="2" />
+      <geom name="blue_product_box_collision" type="box" pos="5.4894856e-05 -0.00020033128 -0.00013326162" quat="0.71566132 -0.08920003 0.69251421 -0.017213268" size="0.026356679 0.036641389 0.10227144" density="0" group="3" rgba="0.55 0.55 0.55 0.18" condim="4" friction="0.4 0.006 0.0008" solref="0.01 0.979" solimp="0.9 0.95 0.001" />
+      <site name="blue_product_box_site" pos="0 0 0" />
+    </body>
+  </worldbody>
+</mujoco>

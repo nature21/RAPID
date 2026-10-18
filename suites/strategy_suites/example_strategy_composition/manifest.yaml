@@ -1,0 +1,20 @@
+id: example_strategy_composition
+stage: strategy_composition
+description: Example composition-stage suite shape. The composition agent starts from a learned workspace checkpoint.
+protocol:
+  mode: closed_library
+  input_workspace: workspace_checkpoint
+  output: strategy
+scenarios:
+  - id: deploy_demo_1
+    task_type: strategy
+    demo_paths:
+      - demos/strategy/demo_1/rgb.mp4
+    task_bind_roots: []
+    expected_output:
+      - strategies/<generated_strategy>
+      - instantiations/strategies/<generated_strategy>/example_0
+    eval_command: python -m instantiations.strategies.<generated_strategy>.example_0.main
+metrics:
+  seeds: [0, 1, 2, 3, 4]
+  success_predicate_owner: suite_harness

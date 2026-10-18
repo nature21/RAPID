@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+workspace="${RAPID_WORKSPACE:-${repo_root}/workspace}"
+
+if [[ "${1:-}" == "--help" || "${1:-}" == "-h" ]]; then
+  echo "usage: $0 [--workspace PATH]"
+  exit 0
+elif [[ "${1:-}" == "--workspace" ]]; then
+  if [[ $# -ne 2 ]]; then
+    echo "usage: $0 [--workspace PATH]" >&2
+    exit 2
+  fi
+  workspace="$2"
+elif [[ $# -ne 0 ]]; then
+  echo "usage: $0 [--workspace PATH]" >&2
+  exit 2
+fi
+
+workspace="$(cd -- "${workspace}" && pwd)"
+queue_root="${workspace}/agent_work/gpu_render_requests"
+ready_file="${workspace}/agent_work/gpu_render_ready.json"
+mkdir -p "${queue_root}"
+queue="$(mktemp -d "${queue_root}/broker_dev_XXXXXX")"
+
+cleanup() {
+  rm -f -- "${ready_file}"
+  rmdir -- "${queue}" 2>/dev/null || true
+}
+trap cleanup EXIT INT TERM
+
+export RAPID_WORKSPACE="${workspace}"
+export RAPID_ACTIVE_SRC_DIR="${workspace}/src"
+export RAPID_SRC_DIR="${workspace}/src"
+"${repo_root}/scripts/rapid-python" \
+  -m suites.staged.gpu_render_broker \
+  --workspace "${workspace}" \
+  --queue "${queue}" \
+  --ready-file "${ready_file}"

@@ -1,0 +1,65 @@
+{
+  "$id": "rapid.binding/v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "goal_text": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "inputs": {
+      "type": "object"
+    },
+    "instance_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "program_kind": {
+      "enum": [
+        "primitive",
+        "strategy"
+      ]
+    },
+    "program_name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "roles": {
+      "additionalProperties": {
+        "oneOf": [
+          {
+            "minLength": 1,
+            "type": "string"
+          },
+          {
+            "items": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          }
+        ]
+      },
+      "type": "object"
+    },
+    "scene_module": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "rapid.binding/v1"
+    }
+  },
+  "required": [
+    "goal_text",
+    "inputs",
+    "instance_name",
+    "program_kind",
+    "program_name",
+    "roles",
+    "scene_module",
+    "schema_version"
+  ],
+  "type": "object"
+}

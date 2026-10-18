@@ -1,0 +1,34 @@
+parameters:
+  namespace: panda_eob_calib
+  eye_on_hand: false
+  robot_base_frame: fr3_link0
+  robot_effector_frame: fr3_hand_tcp
+  tracking_base_frame: camera_color_frame
+  tracking_marker_frame: marker_0
+  move_group: ''
+  move_group_namespace: /
+  freehand_robot_movement: false
+transformation:
+  x: 0.22286548643490545
+  y: -0.6470077335297546
+  z: 0.659769252544126
+  qx: 0.8639297287092281
+  qy: -0.2755712024092647
+  qz: 0.12304415280243439
+  qw: -0.40317002953622755
+calibration:
+  method: Shah
+  n_samples: 89
+tool_marker_transformation:
+  x: -0.02874348778615202
+  y: -0.0071148675831977735
+  z: -0.031006247256348048
+  qx: 0.010661675519784789
+  qy: 0.7146010398013986
+  qz: 0.006640272533747717
+  qw: -0.6994194659648445
+residual:
+  mean_position_error_m: 0.005081764491359698
+  std_position_error_m: 0.0022735402218083635
+  max_position_error_m: 0.013405353890249563
+  n_samples: 89

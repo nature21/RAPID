@@ -1,0 +1,34 @@
+{
+  "objects": [
+    {
+      "body": "left_white_divider",
+      "name": "left white divider",
+      "safe_name": "left_white_divider"
+    },
+    {
+      "body": "right_white_divider",
+      "name": "right white divider",
+      "safe_name": "right_white_divider"
+    },
+    {
+      "body": "left_dark_snack_box",
+      "name": "left dark snack box",
+      "safe_name": "left_dark_snack_box"
+    },
+    {
+      "body": "purple_snack_box",
+      "name": "purple snack box",
+      "safe_name": "purple_snack_box"
+    },
+    {
+      "body": "cheez_it_box",
+      "name": "Cheez-It box",
+      "safe_name": "cheez_it_box"
+    },
+    {
+      "body": "right_red_orange_snack_box",
+      "name": "right red-orange snack box",
+      "safe_name": "right_red_orange_snack_box"
+    }
+  ]
+}

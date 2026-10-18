@@ -1,0 +1,28 @@
+name: rapid
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.13
+  - pip
+  - cmake
+  - eigen
+  - libgomp
+  - gcc_linux-64=13
+  - gxx_linux-64=13
+  - pybind11>=2.11
+  - pytest>=9,<10
+  - onnxruntime-cpp=1.19
+  - pip:
+      - -e ./third_party/judo
+      - mujoco>=3.6,<3.7
+      - ompl==2.0.1
+      - imageio
+      - imageio-ffmpeg
+      - matplotlib
+      - openai
+      - requests
+      - trimesh
+      - scikit-image
+      - scikit-learn
+      - PyYAML

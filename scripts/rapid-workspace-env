@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd -- "${script_dir}/.." && pwd)"
+source "${repo_root}/scripts/lib/experiment-root.sh"
+rapid_experiment_root_args "$@"
+set -- "${RAPID_EXPERIMENT_ARGS[@]}"
+
+usage() {
+  cat >&2 <<'EOF'
+Usage (supports --experiment-root DIR; default: RAPID_EXPERIMENT_ROOT or suite_runs):
+  eval "$(./scripts/rapid-workspace-env RUN_DIR_OR_WORKSPACE_DIR)"
+
+Examples:
+  eval "$(./scripts/rapid-workspace-env suite_runs/deploy_merged_003)"
+  eval "$(./scripts/rapid-workspace-env /abs/path/to/run/workspace)"
+EOF
+}
+
+if [[ $# -ne 1 || "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+  usage
+  exit 2
+fi
+
+input="${1%/}"
+if [[ "$input" != /* && "$input" != */* && ! -d "$input/src" && ! -d "$input/workspace/src" ]]; then
+  input="${RAPID_EXPERIMENT_ROOT}/${input}"
+fi
+if [[ -d "${input}/workspace/src" ]]; then
+  workspace_dir="${input}/workspace"
+elif [[ -d "${input}/src" ]]; then
+  workspace_dir="${input}"
+else
+  echo "error: expected a suite run directory or workspace directory: ${1}" >&2
+  echo "       looked for '${input}/workspace/src' or '${input}/src'" >&2
+  exit 1
+fi
+
+workspace_dir="$(cd -- "${workspace_dir}" && pwd -P)"
+src_dir="${workspace_dir}/src"
+
+printf 'export RAPID_EXPERIMENT_ROOT=%q\n' "${RAPID_EXPERIMENT_ROOT}"
+printf 'export RAPID_WORKSPACE=%q\n' "${workspace_dir}"
+printf 'export RAPID_ACTIVE_SRC_DIR=%q\n' "${src_dir}"
+printf 'export RAPID_SRC_DIR=%q\n' "${src_dir}"

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+
+export MUJOCO_GL="${MUJOCO_GL:-glfw}"
+exec "${script_dir}/rapid-python" -m vistools.view_scene "$@"

@@ -1,0 +1,9 @@
+demo,goal,description
+1,store the cheez-it box,"Push the object towards the opening, switch contact and push again to store it in the corridor."
+2,pick up the cheez-it box,"Push the object in an ungraspable pose toward the wall, flip it to expose a graspable edge, and grasp it."
+3,pick up the cheez-it box,"Pull the object from between two obstacles, push toward the wall, flip it to expose a graspable edge, and grasp it."
+4,pick up the cheez-it box,"Push the object in an ungraspable pose toward the wall, flip it to expose a graspable edge, pull to expose a graspable edge, and grasp it."
+5,store the cheez-it box,"Push an object toward the wall, flip it to align with an opening between the wall and the object, then pull it into the opening for storage. "
+6,store the ziplog box,"Pivot the box to align with the storage opening, push it toward the opening, and then push it through the opening into the storage space."
+7,pick up the cheez-it box,"Topple the cheez-it box by pressing on the top of it to expose a graspable edge, and grasp it."
+8,pick up the book,"Move the book to the edge of the platform to expose a graspable edge, and grasp it."

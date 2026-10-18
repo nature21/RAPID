@@ -1,0 +1,4 @@
+interface:
+  display_name: "Instantiate RAPID Strategy Example"
+  short_description: "Evaluate an invention-time strategy example"
+  default_prompt: "Use $rapid-instantiate-strategy to evaluate this invention-time strategy example."
