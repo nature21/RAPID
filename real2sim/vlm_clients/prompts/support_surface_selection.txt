@@ -1,0 +1,31 @@
+Select the visible foundational supporting surface or face that should define the ground plane and gravity frame for a real-to-sim scene.
+
+You will receive one RGB image and a JSON list of detected objects. Choose the single broad, stable base surface that acts as the scene's ground or workspace, such as the top face of a table, floor, counter, or fixed shelf. Prefer the lowest visible support in the local support chain: if a manipulable object rests on a raised platform, tray, mat, box, or stand which itself rests on a table, choose the table and leave the raised item as scene geometry. Only choose a platform, tray, or mat when it is itself the foundational workspace and no broader underlying support is visible. Do not choose background walls, vertical dividers, object side faces, shadows, labels, people, or unrelated room infrastructure.
+
+Return exactly one JSON object inside the result block. The object_name should match the best detected object name when possible. The sam_query should be a short phrase suitable for text-prompted segmentation and should target the supporting face/surface, not unrelated parts.
+
+Output contract:
+- Your entire response must be exactly one JSON object inside one result block.
+- The first three characters of your response must be *** and the final three characters must be ***.
+- The result-block delimiter is literally three asterisks. Do not replace it with XML tags such as <result> or <json>.
+- Do not write any text before or after the result block.
+- Do not write Markdown fences.
+- Output valid JSON only inside the result block.
+- Before responding, silently verify that the content between the delimiters parses as JSON and follows the schema below.
+
+***
+{
+  "object_name": "black platform",
+  "sam_query": "black platform top supporting surface",
+  "reason": "primary visible surface supporting the scene objects",
+  "confidence": "high"
+}
+***
+
+Rules:
+- Include exactly one result block.
+- Use confidence values of "high", "medium", or "low".
+- If no detected object is an obvious support, choose the best visible support surface in the image and set confidence to "low".
+- Do not collapse a raised support object into the ground plane when its underlying table, floor, counter, or shelf is visible.
+- Do not put non-JSON text inside the result block.
+- Do not invent hidden surfaces that are not visible.

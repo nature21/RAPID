@@ -1,0 +1,4 @@
+interface:
+  display_name: "Repair Real2Sim Scene"
+  short_description: "Align scene meshes and object inventory to real images"
+  default_prompt: "Use $repair-real2sim-scene to repair the supplied Real2Sim scene against its source image and make it pass physics preflight."

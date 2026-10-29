@@ -22,6 +22,7 @@ dependencies:
       - matplotlib
       - openai
       - requests
+      - Flask>=3,<4
       - trimesh
       - scikit-image
       - scikit-learn

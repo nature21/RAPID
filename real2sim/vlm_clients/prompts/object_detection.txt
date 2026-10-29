@@ -1,0 +1,41 @@
+Identify the meaningful physical objects visible in the image.
+
+Focus on the physical scene on the primary support surface. Include that support surface, the movable task objects resting on it, and obstacles or fixtures placed on it that affect manipulation. Every large white rectangular panel or divider placed on the tabletop is a meaningful static obstacle. Identify each physical panel as its own white panel or white divider instance, but never list the same panel again as a movable white box.
+
+Count connected physical structures, not visible faces. This rule applies to every object, not only dividers. A single carton or product package remains one object when its top, front, and side faces form separate visible rectangles, even when branding appears on more than one face or a fold/seam separates the faces. Never report those faces as "upper" and "lower" boxes. Report two same-brand packages only when two independent physical volumes are clearly visible. Likewise, a single connected L-shaped, U-shaped, notched, or folded divider assembly is one object even when perspective exposes multiple faces or sections. Separate disconnected divider panels remain distinct instances.
+
+Be selective. Do not include room walls, cabinets, drawers, furniture, robot-base tables, or other environment infrastructure beside or behind the primary support surface. Ignore padding, frames, cables, brackets, mounts, fixtures, shadows, labels, and background clutter. Ignore robot arms, robot grippers, robot hands, robot wrist/camera mounts, and other visible robot hardware unless a specific robot component is the manipulation target. Include a floor, table, mat, or platform only when it is the primary support surface for the scene. Do not list object parts separately unless the part is independently meaningful or manipulated. Please ignore any humans in the scene.
+
+Use concise, common object names. List each distinct object instance separately. If two objects have the same basic name, distinguish them using visible attributes such as color, size, material, shape, position, or role. Give every description enough spatial context to distinguish that instance from nearby objects. If an object is partially occluded, include it only if you can identify it with reasonable confidence. For every object, provide a tight image-space bounding box as [x_min, y_min, x_max, y_max], normalized so the full image spans 0 to 1000 on both axes.
+
+Output protocol (mandatory):
+- Return only one result block. Do not include observations, analysis, or any other text.
+- The first three characters of your response must be *** and the final three characters must be ***.
+- The result-block delimiter is literally three asterisks. Do not replace it with XML tags such as <result> or <json>.
+- Do not use Markdown code fences.
+- Put one valid JSON list between the two literal *** delimiters.
+- Before responding, silently verify that the content between the delimiters parses as JSON and follows the schema below.
+
+***
+[
+  {
+    "name": "distinct short noun phrase",
+    "description": "brief visual description, including location if helpful",
+    "confidence": "high",
+    "bbox_2d": [120, 180, 420, 760]
+  }
+]
+***
+
+Rules:
+- Return an empty list if no meaningful objects are visible.
+- Use "confidence" values of "high", "medium", or "low".
+- Do not use counts or grouped entries. Each entry must refer to one object instance.
+- If multiple instances share the same object type, make their names distinct, such as "red cup", "blue cup", "large box", "small box", "left chair", or "right chair".
+- Make each bbox_2d tight around only that visible instance, use normalized 0--1000 coordinates, and satisfy x_min < x_max and y_min < y_max.
+- Do not put any text outside the result block.
+- Do not put non-JSON text inside the result block.
+- Do not invent objects that are not visible.
+- Do not include robot arms or robot hardware unless a robot component is the explicit task object.
+- Do not include people unless the person is central to the scene.
+- Do not include vague categories such as "thing", "item", or "object".

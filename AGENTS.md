@@ -10,7 +10,9 @@ Codex invention runs use a separate workspace-local `AGENTS.md` staged into
 Project code is loaded by putting the active source tree on `PYTHONPATH`
 through the wrapper scripts. The only supported runtime is the conda
 environment named `rapid`; the user's base conda environment is not a supported
-runtime.
+runtime. The external GPU model services under `server/` use their upstream
+model environments; their HTTP interface tests run in `rapid` without model
+weights. Do not install model-specific CUDA stacks into the RAPID environment.
 
 Concrete primitive implementations created by agents live under
 `workspace/src/primitives/<primitive>/`. The clean baseline has no preinstalled

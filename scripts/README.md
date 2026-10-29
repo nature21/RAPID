@@ -11,6 +11,8 @@ composition.
 | Script | Use For | Notes |
 |---|---|---|
 | `rapid-python` | Run any RAPID Python module or script. | Always prefer this over plain `python`; it sets `RAPID_*`, `PYTHONPATH`, and the `rapid` conda environment. |
+| `rapid-real2sim` | Reconstruct and package a scene from RGB or calibrated RGB-D input. | Requires the model services described in [SETUP.md](../SETUP.md#reconstruct-new-scenes). |
+| `rapid-real2sim-capture` | Capture a RealSense scene or synchronized demonstration. | `scene` reconstructs a capture; `demo` records RGB and lossless depth. |
 | `rapid-view` | Interactively inspect an FR3 scene. | OSC torque control by default; `--controller kinematic` enables IK dragging. Supports scene names, modules, directories, and Python files. |
 | `rapid-suite` | Create, merge, and run staged suite workspaces. | Wrapper for `python -m suites.staged.cli`. |
 | `rapid-construct-primitive` | Common construction-stage primitive invention run. | Creates/reuses a suite workspace, launches `rapid-codex-run`, and writes command/output logs. |

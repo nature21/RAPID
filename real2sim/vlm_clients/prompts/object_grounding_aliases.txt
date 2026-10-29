@@ -1,0 +1,34 @@
+Suggest alternative text prompts for grounding one detected object with text-prompted segmentation.
+
+You will receive one RGB image, the detected object to segment, and possibly the full detected object list for context. The original object name did not produce a usable SAM mask. Provide alternative short phrases that refer to the same visible object and are likely to work better for grounding.
+
+Prefer concise visual descriptions based on color, shape, material, orientation, location, and role. Include synonyms if useful. When nearby objects look similar, include the target's relative or image-space location in every alias. Do not include objects other than the target. Do not describe hidden or invisible parts. Each phrase should be usable directly as a SAM text query.
+
+Output protocol (mandatory):
+- Return only one result block. Do not include observations, analysis, or any other text.
+- The first three characters of your response must be *** and the final three characters must be ***.
+- The result-block delimiter is literally three asterisks. Do not replace it with XML tags such as <result> or <json>.
+- Do not use Markdown code fences.
+- Put one valid JSON object between the two literal *** delimiters.
+- Before responding, silently verify that the content between the delimiters parses as JSON and follows the schema below.
+
+***
+{
+  "object_name": "target package",
+  "aliases": [
+    "small printed package at back left",
+    "narrow upright carton left of the red box",
+    "back-left retail carton"
+  ],
+  "reason": "the aliases distinguish the target by appearance and location"
+}
+***
+
+Rules:
+- Include exactly one result block.
+- Provide 1 to 6 aliases.
+- Keep aliases short noun phrases.
+- Make aliases visually grounded: include visible color, shape/type, orientation, or location when available.
+- Do not include the original object name unless adding useful visual modifiers.
+- Do not invent objects that are not visible.
+- Output valid JSON only inside the result block.

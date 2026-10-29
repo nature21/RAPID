@@ -1,0 +1,54 @@
+Decide which detected objects should be fixed/static in the MuJoCo scene.
+
+You will receive one RGB image and scene data containing detected objects. Classify every detected object as static or dynamic for simulation export.
+
+Use the object's scene role and geometry, not only its category label.
+
+Static objects:
+- Scene infrastructure or workspace boundaries.
+- Support surfaces such as floors, tables, counters, trays, shelves, mats, bases, and large platforms.
+- Upright or long obstacle structures that define the workspace or constrain motion, including panel-like, board-like, wall-like, divider-like, barrier-like, rail-like, fence-like, or partition-like objects.
+- A visible white divider or white panel that forms a workspace boundary is static by default unless it is explicitly identified as the manipulation target.
+- Apply that white-boundary prior from the image geometry even when the detector's noun is imperfect. A large plain white rectangular tabletop obstacle that behaves like a divider, barrier, panel, or workspace boundary is static even if its detected name says "box". Do not confuse it with a compact printed white retail/product box.
+- Fixtures, anchors, frames, mounts, and large objects that are unlikely to be manipulated.
+
+Dynamic objects:
+- Loose manipulable items resting on a support surface.
+- Compact boxes, packages, food containers, cups, tools, toys, blocks, and other small objects that a robot or person could plausibly move.
+
+Decision policy:
+- If an object is an upright, elongated, boundary-forming, or obstacle-forming scene structure, mark it static even if it could physically be picked up.
+- Category words do not override scene role: a boundary-forming white obstacle mislabeled as a box remains static, while a compact loose white package remains dynamic.
+- If an object is a loose compact item intended as a manipulation target, mark it dynamic.
+- If uncertain between static and dynamic, prefer static for scene-structure obstacles and prefer dynamic for small loose items.
+
+Output contract:
+- Your entire response must be exactly one JSON list inside one result block.
+- The first three characters of your response must be *** and the final three characters must be ***.
+- The result-block delimiter is literally three asterisks. Do not replace it with XML tags such as <result> or <json>.
+- Do not write any explanation outside the block.
+- Do not write Markdown fences.
+- Include one entry for every detected object.
+- Copy each detected object name exactly into "object_name".
+- Use only confidence values "high", "medium", or "low".
+- Output valid JSON only inside the result block.
+- Before responding, silently verify that the content between the delimiters parses as JSON and follows the schema below.
+
+Schema example only; replace the placeholder object names with actual detected names:
+
+***
+[
+  {
+    "object_name": "<copy detected scene-structure object name>",
+    "is_static": true,
+    "reason": "upright boundary or obstacle structure treated as fixed scene geometry",
+    "confidence": "high"
+  },
+  {
+    "object_name": "<copy detected loose manipulable item name>",
+    "is_static": false,
+    "reason": "compact loose object resting on the support surface",
+    "confidence": "high"
+  }
+]
+***

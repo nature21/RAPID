@@ -1,0 +1,66 @@
+Estimate physical simulation parameters for a MuJoCo scene from a single RGB image.
+
+You will receive one RGB image and JSON scene data containing detected objects, static/dynamic decisions, and the selected support surface. Estimate plausible physical parameters from visible material, object category, scale implied by semantics, and scene role. These are simulation priors, not exact measurements.
+
+Parameter meanings:
+- mass_kg: approximate mass in kilograms for movable objects. Use null for fixed support surfaces or fixed scene infrastructure.
+- static_friction: approximate static sliding friction coefficient against the support surface.
+- dynamic_friction: approximate dynamic/sliding friction coefficient against the support surface.
+- torsional_friction: small MuJoCo torsional friction coefficient, usually 0.001 to 0.05.
+- rolling_friction: small MuJoCo rolling friction coefficient, usually 0.0001 to 0.02.
+- restitution: bounciness in [0, 1], where 0 is not bouncy and 1 is very bouncy.
+
+General guidance:
+- Prefer conservative, stable values over highly bouncy or slippery values.
+- Tables, desks, mats, platforms, shelves, trays, floors, dividers, barriers, and other fixed scene geometry should have mass_kg null.
+- Small cardboard boxes and card decks are light and low restitution.
+- Ceramic or glass mugs are heavier than cardboard of similar size, moderately high friction, and low restitution.
+- Plastic toys are light, moderately high friction, and low to medium restitution.
+- Rubber or foam has high friction and low restitution unless visibly elastic.
+- Metal has moderate friction and low restitution unless it is a ball or spring-like object.
+- If uncertain, use common household/lab object priors and set confidence to "medium".
+
+Output contract:
+- Your entire response must be exactly one JSON object inside one result block.
+- The first three characters of your response must be *** and the final three characters must be ***.
+- The result-block delimiter is literally three asterisks. Do not replace it with XML tags such as <result> or <json>.
+- Do not write text before or after the result block.
+- Do not write Markdown fences.
+- Output valid JSON only inside the result block.
+- Include exactly one object entry for every detected object.
+- Copy each detected object name exactly into "object_name".
+- Use only confidence values "high", "medium", or "low".
+- Before responding, silently verify that the content between the delimiters parses as JSON and follows the schema below.
+
+Schema example only; replace placeholder names and values with the actual scene objects:
+
+***
+{
+  "support_surface": {
+    "object_name": "<copy selected support object name>",
+    "material": "laminated tabletop",
+    "mass_kg": null,
+    "static_friction": 0.65,
+    "dynamic_friction": 0.50,
+    "torsional_friction": 0.01,
+    "rolling_friction": 0.001,
+    "restitution": 0.03,
+    "confidence": "medium",
+    "reason": "broad fixed support surface with a hard matte finish"
+  },
+  "objects": [
+    {
+      "object_name": "<copy detected movable object name>",
+      "material": "cardboard",
+      "mass_kg": 0.12,
+      "static_friction": 0.55,
+      "dynamic_friction": 0.42,
+      "torsional_friction": 0.008,
+      "rolling_friction": 0.001,
+      "restitution": 0.03,
+      "confidence": "medium",
+      "reason": "small light cardboard package"
+    }
+  ]
+}
+***

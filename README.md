@@ -1,4 +1,4 @@
-# RAPID (Preview)
+# RAPID
 
 **Robot Agentic Programming from Demonstrations**
 
@@ -13,11 +13,11 @@ manipulation pipeline and staged construction and evaluation
 infrastructure. The clean source tree contains shared infrastructure; concrete
 primitives and strategies are generated in isolated experiment workspaces.
 
-This preview includes demonstrations, reconstructed scenes, and the tools to
+RAPID includes demonstrations, reconstructed scenes, and the tools to
 reproduce agent invention and simulation evaluation, locally or with Slurm.
-The Real2Sim pipeline and reconstruction servers are not included; the supplied
-scenes allow these experiments to run without reconstruction services. The matching
-[Judo-osc](https://github.com/nature21/Judo-osc) runtime is pinned as a submodule.
+The supplied scenes let these experiments run without reconstruction services.
+To reconstruct new scenes, use the [Real2Sim pipeline and model servers](SETUP.md#reconstruct-new-scenes).
+The matching [Judo-osc](https://github.com/nature21/Judo-osc) runtime is pinned as a submodule.
 
 ## Program representation
 
@@ -85,13 +85,9 @@ following the [installation instructions](SETUP.md#simulation-assets).
 Strategy demonstrations live in `demos/strategy/demo_N/`; primitive
 demonstrations live in `demos/primitive/<name>/`. Both include tracked
 first-frame metric depth in `depth.npy`.
-The preview includes pre-segmented demonstration clips; the
+Pre-segmented demonstration clips are included; the
 [segmentation agent and clip-generation code](demos/strategy/.agents/skills/segment-demo-videos/)
 are also provided.
 
 Generated workspaces, experiment logs, and result galleries live under
 `suite_runs/` and are excluded from Git.
-
-## TODO
-
-- [ ] Release the Real2Sim pipeline and reconstruction server implementations.
